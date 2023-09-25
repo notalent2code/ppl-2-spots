@@ -27,7 +27,7 @@
         
 #### Delivered:	 x SP
 ### During Sprint
-2023-09-00:
+2023-09-09:
 
 1. Feedback : Tidak Ada Masalah
 1. Blocker : Aman Tidak ada Hambatan

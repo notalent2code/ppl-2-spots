@@ -149,7 +149,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 Response :
 
@@ -171,7 +171,7 @@ Request :
 
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 - Response :
 
@@ -201,7 +201,7 @@ Request :
 
   - Content-Type: multipart/form-data
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 - Body (Tenant) :
 
@@ -244,7 +244,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 Response (Owner) :
 
@@ -322,7 +322,7 @@ Request :
 
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 - Response :
 
@@ -365,7 +365,7 @@ Request :
 
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 
 - Response :
 
@@ -417,7 +417,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 - Path Variables : owner_id
 - Body :
 
@@ -861,7 +861,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 - Path Variables : space_id
 
 - Body :
@@ -955,7 +955,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 - Params : order_id
 
 Response :
@@ -997,7 +997,7 @@ Request :
 - Header :
   - Content-Type: application/json
   - Accept: application/json
-  - Authorization: Bearer <access_token>
+  - Authorization : Bearer <access_token>
 - Body :
 
 ```json

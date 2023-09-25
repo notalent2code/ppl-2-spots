@@ -14,23 +14,23 @@
 - User Story
 
 ### Breakdown Task:
-#### Commitment: x SP
-- Rihlan : x SP
-  - [ ] User Story x SP
-- Raihan: x SP
-  - [ ] PPT x SP
-- Yahya: x SP
-  - [ ] Requirement Analysis x SP
-- Bagus: x SP
-  - [ ] Trello x SP
-  - [ ] Github x SP
+#### Commitment: 5 SP
+- Rihlan : 1 SP
+  - [✔] User Story 1 SP
+- Raihan: 1 SP
+  - [✔] PPT 1 SP
+- Yahya: 1 SP
+  - [✔] Requirement Analysis 1 SP
+- Bagus: 2 SP
+  - [✔] Trello 1 SP
+  - [✔] Github 1 SP
         
-#### Delivered:	 x SP
+#### Delivered:	 5 SP
 ### During Sprint
-2023-09-09:
+2023-09-19:
 
 1. Feedback : Tidak Ada Masalah
-1. Blocker : Aman Tidak ada Hambatan
+2. Blocker : Aman Tidak ada Hambatan
 ### Notes Sprint Review
 Untuk Sprint Satu aman
 

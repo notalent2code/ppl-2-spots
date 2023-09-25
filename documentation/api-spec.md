@@ -3,15 +3,16 @@
 ## Create Product
 
 Request :
+
 - Method : POST
 - Endpoint : `/api/products`
 - Header :
-    - Content-Type: application/json
-    - Accept: application/json
-    - Authorization: Bearer <access_token>
+  - Content-Type: application/json
+  - Accept: application/json
+  - Authorization: Bearer <access_token>
 - Body :
 
-```json 
+```json
 {
     "id" : "string, unique",
     "name" : "string",
@@ -22,7 +23,7 @@ Request :
 
 Response :
 
-```json 
+```json
 {
     "code" : "number",
     "status" : "string",
@@ -40,14 +41,15 @@ Response :
 ## Get Product
 
 Request :
+
 - Method : GET
 - Endpoint : `/api/products/{id_product}`
 - Header :
-    - Accept: application/json
+  - Accept: application/json
 
 Response :
 
-```json 
+```json
 {
     "code" : "number",
     "status" : "string",
@@ -65,14 +67,15 @@ Response :
 ## Update Product
 
 Request :
+
 - Method : PUT
 - Endpoint : `/api/products/{id_product}`
 - Header :
-    - Content-Type: application/json
-    - Accept: application/json
+  - Content-Type: application/json
+  - Accept: application/json
 - Body :
 
-```json 
+```json
 {
     "name" : "string",
     "price" : "long",
@@ -82,7 +85,7 @@ Request :
 
 Response :
 
-```json 
+```json
 {
     "code" : "number",
     "status" : "string",
@@ -100,17 +103,18 @@ Response :
 ## List Product
 
 Request :
+
 - Method : GET
 - Endpoint : `/api/products`
 - Header :
-    - Accept: application/json
+  - Accept: application/json
 - Query Param :
-    - size : number,
-    - page : number
+  - size : number,
+  - page : number
 
 Response :
 
-```json 
+```json
 {
     "code" : "number",
     "status" : "string",
@@ -138,14 +142,15 @@ Response :
 ## Delete Product
 
 Request :
+
 - Method : DELETE
 - Endpoint : `/api/products/{id_product}`
 - Header :
-    - Accept: application/json
+  - Accept: application/json
 
 Response :
 
-```json 
+```json
 {
     "code" : "number",
     "status" : "string"

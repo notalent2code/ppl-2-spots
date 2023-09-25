@@ -210,7 +210,7 @@ Request :
   "email": "megumi@gmail.com",
   "first_name": "Megumin",
   "last_name": "Nishikigi",
-  "avatar_url": "avatarURL=@\"/C:/Users/user/Downloads/megumi.jpg\";type=image/jpg",
+  "avatar_url": "avatar_url=@\"/C:/Users/user/Downloads/megumi.jpg\";type=image/jpg",
   "phone_number": "+6285712345677"
 }
 ```

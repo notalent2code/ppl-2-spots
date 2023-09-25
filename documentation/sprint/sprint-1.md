@@ -1,7 +1,7 @@
 # Sprint 1
 
 
-|Date|9 September 2023|
+|Date|19 September 2023|
 | :- | :- |
 |Created by|Bagus|
 |Participant|Rihlan, Raihan, Yahya, Bagus|

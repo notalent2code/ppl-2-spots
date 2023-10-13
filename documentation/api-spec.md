@@ -45,7 +45,7 @@ Response (Tenant) :
     "tenant": {
       "tenant_id": 1,
       "user_id": 1,
-      "avatar_url": "https://api.spotscoworking.live/uploads/avatar/default-avatar.png"
+      "avatar_url": "https://api.spotscoworking.live/static/avatar/default-avatar.png"
     }
   }
 }
@@ -181,7 +181,7 @@ Request :
   "tenant": {
     "tenant_id": 1,
     "user_id": 1,
-    "avatar_url": "https://api.spotscoworking.live/uploads/avatar/default-avatar.png",
+    "avatar_url": "https://api.spotscoworking.live/static/avatar/default-avatar.png",
     "user": {
       "email": "megumi@gmail.com",
       "first_name": "Megumi",
@@ -224,7 +224,7 @@ Request :
   "tenant": {
     "tenant_id": 1,
     "user_id": 1,
-    "avatar_url": "https://api.spotscoworking.li/uploads/avatar/68b50401-5e3b-406f-b972-26bc94d57a89.jpg",
+    "avatar_url": "https://api.spotscoworking.li/static/avatar/68b50401-5e3b-406f-b972-26bc94d57a89.jpg",
     "user": {
       "email": "megumi@gmail.com",
       "first_name": "Megumin",
@@ -257,7 +257,7 @@ Response (Owner) :
     "owner_id": 1,
     "user_id": 2,
     "nik": "3272012589050088",
-    "ktp_picture": "https://api.spotscoworking.live/uploads/ktp/936c9112-130a-4c8f-8c64-f978ecb96878.jpg",
+    "ktp_picture": "https://api.spotscoworking.live/static/ktp/936c9112-130a-4c8f-8c64-f978ecb96878.jpg",
     "balance": "0",
     "bank_name": "BNI",
     "card_number": "1815850071",
@@ -303,7 +303,7 @@ Request :
     "owner_id": 1,
     "user_id": 2,
     "nik": "3272012589050088",
-    "ktp_picture": "https://api.spotscoworking.live/uploads/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
+    "ktp_picture": "https://api.spotscoworking.live/static/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
     "balance": "0",
     "bank_name": "BNI",
     "card_number": "1815850071",
@@ -335,7 +335,7 @@ Request :
     {
       "tenant_id": 1,
       "user_id": 1,
-      "avatar_url": "https://api.spotscoworking.live/uploads/avatar/1_1684155961952.jpg",
+      "avatar_url": "https://api.spotscoworking.live/static/avatar/1_1684155961952.jpg",
       "user": {
         "email": "megumi@gmail.com",
         "first_name": "Megumin",
@@ -346,7 +346,7 @@ Request :
     {
       "tenant_id": 3,
       "user_id": 4,
-      "avatar_url": "https://api.spotscoworking.live/uploads/avatar/default-avatar.png",
+      "avatar_url": "https://api.spotscoworking.live/static/avatar/default-avatar.png",
       "user": {
         "email": "megumi2@gmail.com",
         "first_name": "Megumi",
@@ -380,7 +380,7 @@ Request :
       "owner_id": 1,
       "user_id": 2,
       "nik": "3272012589050088",
-      "ktp_picture": "https://api.spotscoworking.live/uploads/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
+      "ktp_picture": "https://api.spotscoworking.live/static/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
       "balance": "0",
       "bank_name": "BNI",
       "card_number": "1815850071",
@@ -440,7 +440,7 @@ Response :
     "owner_id": 1,
     "user_id": 2,
     "nik": "3272012589050088",
-    "ktp_picture": "https://api.spotscoworking.live/uploads/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
+    "ktp_picture": "https://api.spotscoworking.live/static/ktp/2f408a00-3fe9-4ab9-855a-8a2fe351c779.jpg",
     "balance": "0",
     "bank_name": "BNI",
     "card_number": "1815850071",
@@ -521,7 +521,7 @@ Response :
       },
       "coworking_space_images": [
         {
-          "image_url": "https://api.spotscoworking.live/uploads/coworking_space/87628_1684157013846.jpeg"
+          "image_url": "https://api.spotscoworking.live/static/coworking_space/87628_1684157013846.jpeg"
         }
       ]
     },
@@ -539,7 +539,7 @@ Response :
       },
       "coworking_space_images": [
         {
-          "image_url": "https://api.spotscoworking.live/uploads/coworking_space/27094_1684157456092.jpeg"
+          "image_url": "https://api.spotscoworking.live/static/coworking_space/27094_1684157456092.jpeg"
         }
       ]
     }
@@ -583,10 +583,10 @@ Response :
     },
     "coworking_space_images": [
       {
-        "image_url": "https://api.spotscoworking.live/uploads/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
+        "image_url": "https://api.spotscoworking.live/static/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
       },
       {
-        "image_url": "https://api.spotscoworking.live/uploads/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
+        "image_url": "https://api.spotscoworking.live/static/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
       }
     ],
     "coworking_space_facilities": [
@@ -681,12 +681,12 @@ Response :
     {
       "image_id": 5,
       "space_id": 3,
-      "image_url": "https://api.spotscoworking.live/uploads/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
+      "image_url": "https://api.spotscoworking.live/static/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
     },
     {
       "image_id": 6,
       "space_id": 3,
-      "image_url": "https://api.spotscoworking.live/uploads/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
+      "image_url": "https://api.spotscoworking.live/static/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
     }
   ],
   "facilities": [
@@ -797,12 +797,12 @@ Response :
     {
       "image_id": 3,
       "space_id": 2,
-      "image_url": "https://api.spotscoworking.live/uploads/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
+      "image_url": "https://api.spotscoworking.live/static/coworking_space/53183fac-b3a7-4cfd-a20e-fe964139ba29.jpg"
     },
     {
       "image_id": 4,
       "space_id": 2,
-      "image_url": "https://api.spotscoworking.live/uploads/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
+      "image_url": "https://api.spotscoworking.live/static/coworking_space/2d848a5a-fa37-4915-af1c-4338ca24ed77.jpg"
     }
   ],
   "facilities": [

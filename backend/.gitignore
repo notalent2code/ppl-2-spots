@@ -10,6 +10,18 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Ignore all files in the static/coworking_space directory
+/static/coworking_space/*
+
+# Ignore all files in the static/ktp directory
+/static/ktp/*
+
+# Include .gitkeep files in the static/coworking_space directory
+!/static/coworking_space/.gitkeep
+
+# Include .gitkeep files in the static/ktp directory
+!/static/ktp/.gitkeep
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 
 report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
@@ -97,6 +109,9 @@ web_modules/
 # dotenv environment variable files
 
 .env
+.env.production
+.env.development
+.env.test
 .env.development.local
 .env.test.local
 .env.production.local

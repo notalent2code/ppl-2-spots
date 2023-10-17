@@ -2,26 +2,42 @@ version: '3.8'
 services:
   db:
     image: postgres:alpine
-    container_name: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=secretpassword
-      - POSTGRES_DB=spots_api
+    env_file:
+      - .env
     networks:
-      - spots-backend
+      - spots
+
   test-db:
     image: postgres:alpine
-    container_name: postgres_test
     ports:
       - 5433:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=secretpassword
-      - POSTGRES_DB=spots_api_test
+    env_file:
+      - .env.test
     networks:
-      - spots-backend
+      - spots
+
+  api:
+    image: spots_api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - spots
+    command: ['sh', '-c', 'bun start']
 
 networks:
-  spots-backend:
+  spots:
+
+volumes:
+  pgdata:

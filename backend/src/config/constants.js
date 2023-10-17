@@ -1,0 +1,10 @@
+module.exports = {
+  PORT: process.env.PORT,
+  DATABASE_URL: process.env.DATABASE_URL,
+  API_DOMAIN: process.env.API_DOMAIN,
+  WEB_DOMAIN: process.env.WEB_DOMAIN,
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+  MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
+  MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
+};

@@ -8,7 +8,7 @@
     "prisma:deploy": "prisma migrate deploy",
     "db:rm": "docker compose rm db -s -f -v",
     "db:up": "docker compose up db -d",
-    "db:restart": "bun db:dev:rm && bun db:dev:up && sleep 1 && bun prisma:dev:deploy",
+    "db:restart": "bun db:rm && bun db:up && sleep 1 && bun prisma:deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
     "db:test:rm": "docker compose rm test-db -s -f -v",
     "db:test:up": "docker compose up test-db -d",

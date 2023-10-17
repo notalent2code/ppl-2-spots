@@ -34,7 +34,7 @@ services:
       - db
     networks:
       - spots
-    command: ['sh', '-c', 'bun start']
+    command: ['sh', '-c', 'bun prisma:deploy && bun start']
 
 networks:
   spots:

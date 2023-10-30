@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    networks:
+      - spots
+
+  test-db:
+    image: postgres:alpine
+    ports:
+      - 5433:5432
+    env_file:
+      - .env.test
+    networks:
+      - spots
+
+  api:
+    image: spots_api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - spots
+    command: ['sh', '-c', 'bun prisma:deploy && bun start']
+
+networks:
+  spots:
+
+volumes:
+  pgdata:

@@ -1,8 +1,9 @@
 import { beforeAll, describe, expect, it, test, toEqual } from 'bun:test';
 import { setupTestEnivironment } from './setup-teardown';
 import pactum from 'pactum';
+import { AuthTestSuite } from './auth.test';
 
-describe('AuthController', () => {
+describe('AppController', () => {
   beforeAll(async () => {
     await setupTestEnivironment();
   })
@@ -16,4 +17,6 @@ describe('AuthController', () => {
       })
     })
   })
+
+  AuthTestSuite();
 })

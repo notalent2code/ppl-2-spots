@@ -1,22 +1,29 @@
-import { beforeAll, describe, expect, it, test, toEqual } from 'bun:test';
-import { setupTestEnivironment } from './setup-teardown';
+import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
+import {
+  setupTestEnivironment,
+  teardownTestEnvironment,
+} from './setup-teardown';
 import pactum from 'pactum';
-import { AuthTestSuite } from './auth.test';
+import AuthTestSuite from './auth.test';
 
 describe('AppController', () => {
   beforeAll(async () => {
     await setupTestEnivironment();
-  })
+  });
+
+  afterAll(async () => {
+    await teardownTestEnvironment();
+  });
 
   describe('GET /', () => {
-    test('should return index message', async () => {
+    it('should return index message', async () => {
       const res = await pactum.spec().get('/').expectStatus(200);
 
       expect(res.body).toStrictEqual({
-        message: 'Welcome to Spots API'
-      })
-    })
-  })
+        message: 'Welcome to Spots API',
+      });
+    });
+  });
 
   AuthTestSuite();
-})
+});

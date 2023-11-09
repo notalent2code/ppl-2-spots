@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Install unzip
+        run: apk add --no-cache unzip
       - name: Setup bun
         uses: oven-sh/setup-bun@v1
         with:

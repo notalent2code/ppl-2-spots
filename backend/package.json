@@ -3,8 +3,8 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "export NODE_ENV=development && bun --hot index.js",
-    "start": "export NODE_ENV=production && bun index.js",
+    "dev": "NODE_ENV=development bun --hot index.js",
+    "start": "NODE_ENV=production bun index.js",
     "prisma:deploy": "bun prisma migrate deploy",
     "db:rm": "docker compose rm db -s -f",
     "db:up": "docker compose up db -d",
@@ -14,7 +14,9 @@
     "db:test:up": "docker compose up test-db -d",
     "db:test:restart": "bun db:test:rm && bun db:test:up && sleep 1 && bun prisma:test:deploy",
     "pretest": "bun db:test:restart",
-    "test": "export NODE_ENV=test && bun test"
+    "test": "NODE_ENV=test bun test",
+    "pretest:cov": "bun db:test:restart",
+    "test:cov": "NODE_ENV=test bun test --coverage"
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",

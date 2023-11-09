@@ -3,19 +3,20 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot index.js",
-    "start": "bun index.js",
-    "prisma:deploy": "prisma migrate deploy",
-    "db:rm": "docker compose rm db -s -f -v",
+    "dev": "NODE_ENV=development bun --hot index.js",
+    "start": "NODE_ENV=production bun index.js",
+    "prisma:deploy": "bun prisma migrate deploy",
+    "db:rm": "docker compose rm db -s -f",
     "db:up": "docker compose up db -d",
     "db:restart": "bun db:rm && bun db:up && sleep 1 && bun prisma:deploy",
-    "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
+    "prisma:test:deploy": "bun prisma migrate deploy",
     "db:test:rm": "docker compose rm test-db -s -f -v",
     "db:test:up": "docker compose up test-db -d",
-    "db:test:restart": "bun db:test:rm && bun db:test:up && sleep 1 && bun prisma:test:deploy"
-  },
-  "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "db:test:restart": "bun db:test:rm && bun db:test:up && sleep 1 && bun prisma:test:deploy",
+    "pretest": "bun db:test:restart",
+    "test": "NODE_ENV=test bun test",
+    "pretest:cov": "bun db:test:restart",
+    "test:cov": "NODE_ENV=test bun test --coverage"
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",

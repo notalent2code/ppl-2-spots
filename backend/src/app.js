@@ -33,11 +33,11 @@ app.use(
     credentials: true,
   })
 );
-app.use(logger({
-  transport: {
-    target: 'pino-pretty',
-  }  
-}));
+// app.use(logger({
+//   transport: {
+//     target: 'pino-pretty',
+//   }  
+// }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(path.join(__dirname, '../static')));

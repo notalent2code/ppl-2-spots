@@ -33,6 +33,7 @@ jobs:
           bun-version: 1.0.11
       - name: bun install and test
         run: |
+          cd backend
           bun install
           bun run test
         env:

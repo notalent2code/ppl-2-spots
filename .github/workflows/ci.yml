@@ -35,6 +35,8 @@ jobs:
           cd backend
           touch .env
           echo "${{ secrets.ENV_FILE }}" > .env
+          touch .env.test
+          echo "${{ secrets.ENV_FILE }}" > .env.test
       - name: bun install and test
         run: |
           cd backend

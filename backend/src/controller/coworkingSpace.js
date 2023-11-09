@@ -485,7 +485,7 @@ const updateCoworkingSpace = async (req, res) => {
           '/static/coworking_space/'
         )[1];
         fs.unlinkSync(
-          path.join(__dirname, `../static/coworking_space/${oldImagePath}`)
+          path.join(__dirname, `../../static/coworking_space/${oldImagePath}`)
         );
       }
 

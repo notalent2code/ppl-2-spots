@@ -37,6 +37,15 @@ docker exec -t db pg_dumpall -c -U postgres > dump_spots_`date +%d-%m-%Y"_"%H_%M
 cat dump_file_name.sql | docker exec -i db psql -U postgres
 ```
 
+## Docker build workflow
+
+```bash
+git pull
+docker compose rm -s -f
+docker image rm rihlan24/backend-spots:latest
+docker compose up -d
+```
+
 ## Install dependencies
 
 ```bash

@@ -71,7 +71,7 @@ const updateTenantProfile = async (req, res) => {
       avatarFileName
     ) {
       const oldAvatar = updatedTenant.avatar_url.split('/static/avatar/')[1];
-      fs.unlinkSync(path.join(__dirname, `../static/avatar/${oldAvatar}`));
+      fs.unlinkSync(path.join(__dirname, `../../static/avatar/${oldAvatar}`));
     }
 
     if (email && email !== updatedTenant.user.email) {

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=development bun --hot index.js",
     "start": "NODE_ENV=production bun index.js",
-    "prisma:deploy": "bun prisma migrate deploy",
+    "prisma:deploy": "NODE_ENV=production bun prisma migrate deploy",
     "db:rm": "docker compose rm db -s -f",
     "db:up": "docker compose up db -d",
     "db:restart": "bun db:rm && bun db:up && sleep 1 && bun prisma:deploy",

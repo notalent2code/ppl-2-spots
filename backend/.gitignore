@@ -10,6 +10,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Ignore all files in the static/avatar directory
+/static/avatar/*
+
 # Ignore all files in the static/coworking_space directory
 /static/coworking_space/*
 

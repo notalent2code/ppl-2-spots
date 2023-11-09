@@ -20,7 +20,8 @@ describe('AppController', () => {
       const res = await pactum.spec().get('/').expectStatus(200);
 
       expect(res.body).toStrictEqual({
-        message: 'Welcome to Spots API',
+        message: 'Spots REST API',
+        version: '1.0.0',
       });
     });
   });

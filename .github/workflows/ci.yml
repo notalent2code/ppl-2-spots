@@ -8,13 +8,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: oven/bun:1.0.11
     services:
       test-db:
         image: postgres:alpine
         ports:
           - 5433:5432
-        env: 
+        env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secretpassword24
           POSTGRES_DB: spots_api_test
@@ -22,7 +21,7 @@ jobs:
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5
+          --health-retries 2
 
     steps:
       - name: Check out repository code
@@ -31,8 +30,13 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.0.11
+      - name: Create env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: bun install and test
         run: |
+          cd backend
           bun install
           bun run test
         env:

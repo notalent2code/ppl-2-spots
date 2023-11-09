@@ -1,5 +1,5 @@
 module.exports = {
   name: "app", 
   script: "index.js",
-  interpreter: "~/.bun/bin/bun",
+  interpreter: "/home/.bun/bin/bun",
 };

@@ -18,6 +18,8 @@ COPY --from=node:20-slim /usr/local/bin/node /usr/local/bin/node
 COPY --from=cache /app/node_modules ./node_modules
 COPY . .
 
+ENV NODE_ENV=production
+
 RUN bunx prisma generate
 
 EXPOSE 5000

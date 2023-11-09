@@ -1,16 +1,23 @@
-FROM oven/bun:latest
+# Cache build
+FROM oven/bun:1.0.9 AS cache
+
+WORKDIR /app
+
+COPY package.json bun.lockb ./
+
+RUN bun install
+
+# Final build
+FROM oven/bun:1.0.9 AS final
 
 RUN apt-get update -y && apt-get install -y openssl
 
 WORKDIR /app
 
 COPY --from=node:20-slim /usr/local/bin/node /usr/local/bin/node
-
+COPY --from=cache /app/node_modules ./node_modules
 COPY . .
 
-RUN bun install
-
-RUN bun prisma generate
+RUN bunx prisma generate
 
 EXPOSE 5000
-

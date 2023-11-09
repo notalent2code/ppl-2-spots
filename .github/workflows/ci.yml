@@ -11,15 +11,13 @@ jobs:
     services:
       test-db:
         image: postgres:alpine
-        ports:
-          - 5433:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secretpassword24
           POSTGRES_DB: spots_api_test
         options: >-
           --health-cmd pg_isready
-          --health-interval 10s
+          --health-interval 5s
           --health-timeout 5s
           --health-retries 2
 
@@ -32,8 +30,11 @@ jobs:
           bun-version: 1.0.11
       - name: Create env file
         run: |
+          cd backend
           touch .env
           echo "${{ secrets.ENV_FILE }}" > .env
+          touch .env.test
+          echo "${{ secrets.ENV_FILE }}" > .env.test
       - name: bun install and test
         run: |
           cd backend

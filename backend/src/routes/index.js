@@ -12,7 +12,7 @@ import paymentRouter from './payment';
 const indexRouter = express.Router();
 
 indexRouter.get('/', (req, res, next) => {
-  res.status(200).json({ message: 'Welcome to Spots API Test 2' });
+  res.status(200).json({ message: 'Spots REST API', version: '1.0.0' });
 });
 
 indexRouter.get('/test-auth', verifyAuth, (req, res, next) => {

@@ -2,6 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:alpine
+    container_name: db
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -13,6 +14,7 @@ services:
 
   test-db:
     image: postgres:alpine
+    container_name: test-db
     ports:
       - 5433:5432
     env_file:
@@ -21,10 +23,13 @@ services:
       - spots
 
   api:
-    image: spots_api:latest
+    image: rihlan24/backend-spots:latest
+    container_name: api
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - static:/app/static
     ports:
       - 5000:5000
     env_file:
@@ -41,3 +46,4 @@ networks:
 
 volumes:
   pgdata:
+  static:

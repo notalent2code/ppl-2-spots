@@ -10,10 +10,21 @@
     },
     "rules": {
         "no-undef": "off",
-        "quotes": ["error", "single"],
+        "quotes": [
+            "error",
+            "single"
+        ],
         "linebreak-style": "off",
         "no-underscore-dangle": "off",
         "no-unused-vars": "warn",
-        "no-console": "off",
-    }
+        "no-console": "warn"
+    },
+    "import/no-extraneous-dependencies": [
+        "error",
+        {
+            "devDependencies": false,
+            "optionalDependencies": false,
+            "peerDependencies": false
+        }
+    ]
 }

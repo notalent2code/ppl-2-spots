@@ -76,7 +76,7 @@ const updateOwnerInfo = async (req, res) => {
 
     if (updatedOwner.ktp_picture !== null && ktpFileName !== null) {
       const oldKtp = updatedOwner.ktp_picture.split('/static/ktp/')[1];
-      fs.unlinkSync(path.join(__dirname, `../static/ktp/${oldKtp}`));
+      fs.unlinkSync(path.join(__dirname, `../../static/ktp/${oldKtp}`));
     }
 
     if (email && email !== updatedOwner.user.email) {

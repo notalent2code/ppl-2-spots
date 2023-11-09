@@ -46,6 +46,12 @@ docker image rm rihlan24/backend-spots:latest
 docker compose up -d
 ```
 
+## PM2 build command
+
+```bash
+pm2 restart index.js --name spots-api --interpreter ~/.bun/bin/bun
+```
+
 ## Install dependencies
 
 ```bash

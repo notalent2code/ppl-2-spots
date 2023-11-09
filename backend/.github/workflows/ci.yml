@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: oven/bun:1.0.11
+    services:
+      test-db:
+        image: postgres:alpine
+        ports:
+          - 5433:5432
+        env: 
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secretpassword24
+          POSTGRES_DB: spots_api_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.11
+      - name: bun install and test
+        run: |
+          bun install
+          bun run test
+        env:
+          CI: true

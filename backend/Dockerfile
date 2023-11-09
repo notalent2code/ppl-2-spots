@@ -1,5 +1,5 @@
 # Cache build
-FROM oven/bun:1.0.9 AS cache
+FROM oven/bun:1.0.11 AS cache
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY package.json bun.lockb ./
 RUN bun install
 
 # Final build
-FROM oven/bun:1.0.9 AS final
+FROM oven/bun:1.0.11 AS final
 
 RUN apt-get update -y && apt-get install -y openssl
 

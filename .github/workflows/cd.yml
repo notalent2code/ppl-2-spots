@@ -22,5 +22,5 @@ jobs:
             git pull
             cd ./backend
             /root/.bun/bin/bun install
-            /root/.bun/bin/bunx prisma migrate deploy
+            /root/.bun/bin/bun run prisma:deploy
             /root/.bun/bin/pm2 restart all

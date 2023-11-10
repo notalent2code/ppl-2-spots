@@ -2,6 +2,7 @@ import prisma from '../lib/db';
 import fs from 'fs';
 import path from 'path';
 import constants from '../config/constants';
+import TenantValidator from '@/validator/tenant';
 
 const tenantProfile = async (req, res) => {
   const userId = req.user.userId;
@@ -46,7 +47,8 @@ const getTenantProfile = async (req, res) => {
 // Update tenant profile
 const updateTenantProfile = async (req, res) => {
   try {
-    const { email, firstName, lastName, phoneNumber } = req.body;
+    const { email, firstName, lastName, phoneNumber } =
+      TenantValidator.validateTenantUpdatePayload(req.body);
     const avatarFileName = req.file ? req.file.filename : null;
 
     let avatarURL;

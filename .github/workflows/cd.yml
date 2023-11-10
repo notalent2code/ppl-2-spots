@@ -20,6 +20,7 @@ jobs:
           script: |
             cd /home/ppl-2-spots
             git pull
+            cd ./backend
             /root/.bun/bin/bun install
             /root/.bun/bin/bunx prisma migrate deploy
             /root/.bun/bin/pm2 restart all

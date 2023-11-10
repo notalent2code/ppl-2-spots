@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import prisma from '../lib/db';
 import constants from '../config/constants';
+import AuthValidator from '../validator/auth';
+import ClientError from '@/error/ClientError';
 
 // Register user
 const register = async (req, res) => {
@@ -17,7 +19,7 @@ const register = async (req, res) => {
       lastName,
       phoneNumber,
       userType,
-    } = req.body;
+    } = AuthValidator.validateRegisterPayload(req.body);
 
     const userExists = await prisma.user.findUnique({
       where: {
@@ -26,7 +28,7 @@ const register = async (req, res) => {
     });
 
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(409).json({ message: 'User already exists' });
     }
 
     if (password !== confirmPassword) {
@@ -82,6 +84,10 @@ const register = async (req, res) => {
       res.status(201).json({ message: 'User created successfully', user });
     }
   } catch (error) {
+    if (error instanceof ClientError) {
+      return res.status(error.code).json({ message: error.message });
+    }
+
     res.status(500).json({ message: error.message });
   }
 };

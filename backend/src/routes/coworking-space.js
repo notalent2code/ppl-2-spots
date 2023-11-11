@@ -4,7 +4,7 @@ import {
   getCoworkingSpaceById,
   addCoworkingSpace,
   updateCoworkingSpace,
-} from '../controller/coworkingSpace';
+} from '../controller/coworking-space';
 import { verifyAuth, verifyOwner } from '../middleware';
 import { coworkingUpload } from '../util/uploadImage';
 

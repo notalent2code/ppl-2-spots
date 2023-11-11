@@ -6,7 +6,7 @@ import tenantRouter from './tenant';
 import ownerRouter from './owner';
 import authRouter from './auth';
 import bookingRouter from './booking';
-import coworkingSpaceRouter from './coworkingSpace';
+import coworkingSpaceRouter from './coworking-space';
 import paymentRouter from './payment';
 
 const indexRouter = express.Router();

@@ -3,9 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import constants from '../config/constants';
+import CoworkingSpaceValidator from '@/validator/coworking-space';
 
 const getAllPrismaStatement = {
   select: {
+    space_id: true,
     name: true,
     price: true,
     capacity: true,
@@ -265,7 +267,7 @@ const addCoworkingSpace = async (req, res) => {
       latitude,
       longitude,
       facilities,
-    } = req.body;
+    } = CoworkingSpaceValidator.validateCreateCoworkingSpacePayload(req.body);
 
     if (req.files == null || req.files.length === 0) {
       return res
@@ -426,7 +428,7 @@ const updateCoworkingSpace = async (req, res) => {
       latitude,
       longitude,
       facilities,
-    } = req.body;
+    } = CoworkingSpaceValidator.validateUpdateCoworkingSpacePayload(req.body);
 
     const resCoworkingSpace = await prisma.coworkingSpace.update({
       where: {

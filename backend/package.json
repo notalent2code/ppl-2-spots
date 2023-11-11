@@ -18,6 +18,9 @@
     "pretest:cov": "bun db:test:restart",
     "test:cov": "NODE_ENV=test bun test --coverage"
   },
+  "prisma": {
+    "seed": "dotenv -e .env.development -- node prisma/seed.js"
+  },
   "dependencies": {
     "@prisma/client": "^5.4.2",
     "bun-types": "^1.0.5",
@@ -36,6 +39,8 @@
     "prisma-extension-pagination": "^0.5.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
+    "argon2": "^0.31.2",
     "eslint": "^8.51.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",

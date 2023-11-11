@@ -1,6 +1,6 @@
 import express from 'express';
 import { getTenantProfile, updateTenantProfile } from '../controller/tenant';
-import { avatarUpload } from '../util/uploadImage';
+import { avatarUpload } from '../util/upload-image';
 
 const router = express.Router();
 

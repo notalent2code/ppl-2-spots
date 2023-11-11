@@ -6,7 +6,7 @@ import {
   updateCoworkingSpace,
 } from '../controller/coworking-space';
 import { verifyAuth, verifyOwner } from '../middleware';
-import { coworkingUpload } from '../util/uploadImage';
+import { coworkingUpload } from '../util/upload-image';
 
 const router = express.Router();
 

@@ -4,7 +4,7 @@ import {
   updateOwnerInfo,
   getCoworkingFacilities,
 } from '../controller/owner';
-import { ktpUpload } from '../util/uploadImage';
+import { ktpUpload } from '../util/upload-image';
 
 const router = express.Router();
 

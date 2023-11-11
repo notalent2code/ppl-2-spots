@@ -1,23 +1,13 @@
 import { Base64 } from 'js-base64';
-import constants from '../config/constants';
-import prisma from '../lib/db';
-import { isValidBooking, convertDateToUnix } from '../util/bookingValidator';
+import constants from '@/config/constants';
+import prisma from '@/lib/db';
+import { isValidBooking, convertDateToUnix } from '@/util/booking-validator';
+import BookingValidator from '@/validator/booking';
 
 const bookCoworkingSpace = async (req, res) => {
   try {
     const { spaceId } = req.params;
-    let { date, startHour, endHour, totalPrice } = req.body;
-
-    startHour = parseInt(startHour);
-    endHour = parseInt(endHour);
-    totalPrice = parseInt(totalPrice);
-
-    const newDateUnix = convertDateToUnix(date);
-    const currentDateUnix = parseInt(Date.now() / 1000);
-
-    if (newDateUnix < currentDateUnix) {
-      return res.status(400).json({ message: 'Invalid booking date' });
-    }
+    let { date, startHour, endHour, totalPrice } = BookingValidator.validateBookingPayload(req.body);
 
     const tenant = await prisma.tenant.findUnique({
       where: {
@@ -47,18 +37,16 @@ const bookCoworkingSpace = async (req, res) => {
     });
 
     if (!availability) {
-      return res.status(404).json({ message: 'Availability not found' });
+      return res.status(400).json({ message: 'Coworking space not available for that time' });
     }
 
-    const validBooking = (availability) => {
-      return isValidBooking(date, startHour, endHour, availability);
-    };
+    const validBooking = isValidBooking(date, startHour, endHour, availability);
 
-    if (!validBooking(availability)) {
-      return res.status(400).json({ message: 'Invalid booking' });
+    if (!validBooking) {
+      return res.status(400).json({ message: 'Invalid booking time' });
     }
 
-    const booking = await prisma.booking.create({
+    const bookingPromise = prisma.booking.create({
       data: {
         space_id: coworkingSpace.space_id,
         tenant_id: tenant.tenant_id,
@@ -69,7 +57,7 @@ const bookCoworkingSpace = async (req, res) => {
       },
     });
 
-    const newAvailability = await prisma.availability.create({
+    const newAvailabilityPromise = prisma.availability.create({
       data: {
         space_id: coworkingSpace.space_id,
         date: date,
@@ -78,6 +66,11 @@ const bookCoworkingSpace = async (req, res) => {
         is_booked: true,
       },
     });
+
+    const [booking, newAvailability] = await prisma.$transaction([
+      bookingPromise,
+      newAvailabilityPromise,
+    ]);
 
     if (!booking || !newAvailability) {
       return res.status(400).json({ message: 'Failed to book' });

@@ -5,6 +5,7 @@ import {
 } from './setup-teardown';
 import pactum from 'pactum';
 import AuthTestSuite from './auth.test';
+import TenantTestSuite from './tenant.test';
 
 describe('AppController', () => {
   beforeAll(async () => {
@@ -27,4 +28,5 @@ describe('AppController', () => {
   });
 
   AuthTestSuite();
+  TenantTestSuite();
 });

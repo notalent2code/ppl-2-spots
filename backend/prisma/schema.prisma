@@ -27,6 +27,15 @@ model User {
   @@map("user")
 }
 
+model PasswordReset {
+  id         Int      @id @default(autoincrement())
+  email      String
+  token      String
+  created_at DateTime @default(now())
+
+  @@map("password_resets")
+}
+
 model Tenant {
   tenant_id  Int       @id @default(autoincrement())
   user_id    Int       @unique

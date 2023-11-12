@@ -3,6 +3,8 @@ import prisma from '../lib/db';
 import constants from '../config/constants';
 import AuthValidator from '../validator/auth';
 import ClientError from '@/error/ClientError';
+import sendForgotPasswordEmail from '@/util/send-email';
+import Joi from 'joi';
 
 // Register user
 const register = async (req, res) => {
@@ -239,4 +241,96 @@ const refreshToken = async (req, res) => {
   }
 };
 
-export { register, login, logout, refreshToken };
+const forgotPassword = async (req, res) => {
+  try {
+    const email = Joi.attempt(req.body.email, Joi.string().email().required());
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign(
+      {
+        userId: user.user_id,
+        email: user.email,
+      },
+      constants.RESET_TOKEN_SECRET,
+      { expiresIn: '30m' }
+    );
+
+    await prisma.passwordReset.create({
+      data: {
+        email,
+        token: resetToken,
+      },
+    });
+
+    const emailInfo = await sendForgotPasswordEmail(email, resetToken);
+
+    if (!emailInfo) {
+      return res.status(500).json({ message: 'Error sending email' });
+    }
+
+    return res.status(200).json({
+      message: 'Reset password email sent',
+      infoId: emailInfo.messageId,
+      resetToken,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { resetToken, password, confirmPassword } =
+      AuthValidator.validateResetPasswordPayload(req.body);
+
+    const decoded = jwt.verify(resetToken, constants.RESET_TOKEN_SECRET);
+
+    const isTokenExists = await prisma.passwordReset.count({
+      where: {
+        email: decoded.email,
+      },
+    });
+
+    if (!decoded) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    if (!isTokenExists) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const hashedPassword = await Bun.password.hash(password);
+
+    const userPromise = prisma.user.update({
+      where: {
+        user_id: decoded.userId,
+      },
+      data: {
+        password_hash: hashedPassword,
+      },
+    });
+
+    const resetPromise = prisma.passwordReset.deleteMany({
+      where: {
+        email: decoded.email,
+      },
+    });
+
+    await prisma.$transaction([userPromise, resetPromise]);
+
+    return res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export { register, login, logout, refreshToken, forgotPassword, resetPassword };

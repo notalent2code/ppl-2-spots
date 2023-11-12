@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import prisma from '../lib/db';
 import constants from '../config/constants';
+import OwnerValidator from '@/validator/owner';
 
 const ownerInfo = async (req, res) => {
   const userId = req.user.userId;
@@ -54,7 +55,7 @@ const updateOwnerInfo = async (req, res) => {
       nik,
       bankName,
       cardNumber,
-    } = req.body;
+    } = OwnerValidator.validateOwnerUpdatePayload(req.body);
 
     const ktpFileName = req.file ? req.file.filename : null;
 
@@ -119,7 +120,13 @@ const updateOwnerInfo = async (req, res) => {
 
 const getCoworkingFacilities = async (req, res) => {
   try {
-    const facilities = await prisma.facility.findMany();
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+
+    const facilities = await prisma.facility.paginate().withPages({
+      limit,
+      page,
+    })
 
     res.status(200).json({ facilities });
   } catch (error) {

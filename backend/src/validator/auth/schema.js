@@ -30,4 +30,19 @@ const LoginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-export { RegisterSchema, LoginSchema };
+const ResetPasswordSchema = Joi.object({
+  resetToken: Joi.string().required(),
+  password: Joi.string()
+    .min(8)
+    .pattern(new RegExp('[A-Z]'))
+    .pattern(new RegExp('[0-9]'))
+    .pattern(new RegExp('[!@#$%^&*()_+{}\\[\\]:;<>,.?/\\\\~`\'"|-]'))
+    .required()
+    .messages({
+      'string.pattern.base':
+        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+    }),
+  confirmPassword: Joi.ref('password'),
+});
+
+export { RegisterSchema, LoginSchema, ResetPasswordSchema };

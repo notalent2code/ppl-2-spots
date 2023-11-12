@@ -43,23 +43,19 @@ const getOwners = async (_req, res) => {
 };
 
 const verifyOwner = async (req, res) => {
-  const { ownerId } = req.params;
-  const { ownerStatus } = req.body;
-
-  if (
-    !ownerId ||
-    ownerId === '' ||
-    !ownerStatus ||
-    ownerStatus === '' ||
-    (ownerStatus !== 'APPROVED' && ownerStatus !== 'REJECTED')
-  ) {
-    return res.status(400).json({ message: 'Invalid owner information' });
-  }
-
-  let owner;
-
   try {
-    owner = await prisma.owner.update({
+    const ownerId = parseInt(req.params.ownerId) || null;
+    const ownerStatus = req.body.ownerStatus || null;
+
+    if (
+      !ownerId ||
+      !ownerStatus ||
+      (ownerStatus !== 'APPROVED' && ownerStatus !== 'REJECTED')
+    ) {
+      return res.status(400).json({ message: 'Invalid owner information' });
+    }
+
+    const owner = await prisma.owner.update({
       where: {
         owner_id: parseInt(ownerId),
       },
@@ -74,23 +70,19 @@ const verifyOwner = async (req, res) => {
 };
 
 const verifyCoworkingSpace = async (req, res) => {
-  const { spaceId } = req.params;
-  const { spaceStatus } = req.body;
-
-  if (
-    !spaceId ||
-    spaceId === '' ||
-    !spaceStatus ||
-    spaceStatus === '' ||
-    (spaceStatus !== 'APPROVED' && spaceStatus !== 'REJECTED')
-  ) {
-    return res.status(400).json({ message: 'Invalid space information' });
-  }
-
-  let coworkingSpace;
-
   try {
-    coworkingSpace = await prisma.coworkingSpace.update({
+    const spaceId = parseInt(req.params.spaceId) || null;
+    const spaceStatus = req.body.spaceStatus || null;
+
+    if (
+      !spaceId ||
+      !spaceStatus ||
+      (spaceStatus !== 'APPROVED' && spaceStatus !== 'REJECTED')
+    ) {
+      return res.status(400).json({ message: 'Invalid space information' });
+    }
+
+    const coworkingSpace = await prisma.coworkingSpace.update({
       where: {
         space_id: parseInt(spaceId),
       },
@@ -104,9 +96,4 @@ const verifyCoworkingSpace = async (req, res) => {
   }
 };
 
-export {
-  getTenants,
-  getOwners,
-  verifyOwner,
-  verifyCoworkingSpace,
-}
+export { getTenants, getOwners, verifyOwner, verifyCoworkingSpace };

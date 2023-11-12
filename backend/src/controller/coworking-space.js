@@ -3,9 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import constants from '../config/constants';
+import CoworkingSpaceValidator from '@/validator/coworking-space';
 
 const getAllPrismaStatement = {
   select: {
+    space_id: true,
     name: true,
     price: true,
     capacity: true,
@@ -77,9 +79,8 @@ const getCoworkingSpaces = async (req, res) => {
 
     const search = req.query.search;
 
-    const limit = 10;
-    let page = req.query.page ? req.query.page : 1;
-    page = (parseInt(page) - 1) * limit;
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
     let coworkingSpaces;
 
@@ -91,40 +92,50 @@ const getCoworkingSpaces = async (req, res) => {
           },
         });
 
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          where: {
-            owner_id: owner.owner_id,
-            name: {
-              contains: search,
+        coworkingSpaces = await prisma.coworkingSpace
+          .paginate({
+            where: {
+              owner_id: owner.owner_id,
+              name: {
+                contains: search,
+              },
             },
-          },
-          ...getAllPrismaStatement,
-        });
+            ...getAllPrismaStatement,
+          })
+          .withPages({
+            limit,
+            page
+          });
       } else if (req.user && req.user.userType === 'ADMIN') {
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          where: {
-            name: {
-              contains: search,
+        coworkingSpaces = await prisma.coworkingSpace
+          .paginate({
+            where: {
+              name: {
+                contains: search,
+              },
             },
-          },
-          ...getAllPrismaStatement,
-        });
+            ...getAllPrismaStatement,
+          })
+          .withPages({
+            limit,
+            page
+          });
       } else {
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          where: {
-            status: 'APPROVED',
-            name: {
-              contains: search,
+        coworkingSpaces = await prisma.coworkingSpace
+          .paginate({
+            where: {
+              status: 'APPROVED',
+              name: {
+                contains: search,
+                mode: 'insensitive'
+              },
             },
-          },
-          ...getAllPrismaStatement,
-        });
+            ...getAllPrismaStatement,
+          })
+          .withPages({
+            limit,
+            page
+          });
       }
     } else {
       if (req.user && req.user.userType === 'OWNER') {
@@ -134,29 +145,27 @@ const getCoworkingSpaces = async (req, res) => {
           },
         });
 
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          where: {
-            owner_id: owner.owner_id,
-          },
-          ...getAllPrismaStatement,
-        });
+        coworkingSpaces = await prisma.coworkingSpace
+          .paginate({
+            where: {
+              owner_id: owner.owner_id,
+            },
+            ...getAllPrismaStatement,
+          })
+          .withPages({
+            limit,
+            page
+          });
       } else if (req.user && req.user.userType === 'ADMIN') {
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          ...getAllPrismaStatement,
-        });
+        coworkingSpaces = await prisma.coworkingSpace
+          .paginate({
+            ...getAllPrismaStatement,
+          })
+          .withPages({
+            limit,
+            page
+          });
       } else {
-        coworkingSpaces = await prisma.coworkingSpace.findMany({
-          skip: page,
-          take: limit,
-          where: {
-            status: 'APPROVED',
-          },
-          ...getAllPrismaStatement,
-        });
         coworkingSpaces = await prisma.coworkingSpace
           .paginate({
             where: {
@@ -166,8 +175,8 @@ const getCoworkingSpaces = async (req, res) => {
           })
           .withPages({
             limit,
-          })
-
+            page
+          });
       }
     }
 
@@ -258,7 +267,7 @@ const addCoworkingSpace = async (req, res) => {
       latitude,
       longitude,
       facilities,
-    } = req.body;
+    } = CoworkingSpaceValidator.validateCreateCoworkingSpacePayload(req.body);
 
     if (req.files == null || req.files.length === 0) {
       return res
@@ -419,7 +428,7 @@ const updateCoworkingSpace = async (req, res) => {
       latitude,
       longitude,
       facilities,
-    } = req.body;
+    } = CoworkingSpaceValidator.validateUpdateCoworkingSpacePayload(req.body);
 
     const resCoworkingSpace = await prisma.coworkingSpace.update({
       where: {

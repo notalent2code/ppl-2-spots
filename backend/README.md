@@ -49,7 +49,9 @@ docker compose up -d
 ## PM2 build command
 
 ```bash
-pm2 restart index.js --name spots-api --interpreter ~/.bun/bin/bun
+export NODE_ENV=production
+pm2 start index.js --name spots-api --interpreter ~/.bun/bin/bun
+pm2 restart spots-api --update-env
 ```
 
 ## Install dependencies

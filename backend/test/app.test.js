@@ -21,7 +21,7 @@ describe('AppController', () => {
 
       expect(res.body).toStrictEqual({
         message: 'Spots REST API',
-        version: '1.0.2',
+        version: '1.0.1',
       });
     });
   });

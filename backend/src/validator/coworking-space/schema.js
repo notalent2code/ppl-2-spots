@@ -8,7 +8,15 @@ const CreateCoworkingSpaceSchema = Joi.object({
   address: Joi.string().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
-  facilities: Joi.array().items(Joi.number()).required(),
+  facilities: Joi.string()
+    .required()
+    .custom((value, helpers) => {
+      const facilityIds = value.split(',').map((facility) => facility.trim());
+      if (facilityIds.every((id) => /^\d+$/.test(id))) {
+        return facilityIds;
+      }
+      return helpers.error('any.custom', { message: 'Invalid facility IDs' });
+    }),
 });
 
 const UpdateCoworkingSpaceSchema = Joi.object({
@@ -19,7 +27,13 @@ const UpdateCoworkingSpaceSchema = Joi.object({
   address: Joi.string(),
   latitude: Joi.number(),
   longitude: Joi.number(),
-  facilities: Joi.array().items(Joi.number()),
+  facilities: Joi.string().custom((value, helpers) => {
+    const facilityIds = value.split(',').map((facility) => facility.trim());
+    if (facilityIds.every((id) => /^\d+$/.test(id))) {
+      return facilityIds;
+    }
+    return helpers.error('any.custom', { message: 'Invalid facility IDs' });
+  }),
 });
 
 export { CreateCoworkingSpaceSchema, UpdateCoworkingSpaceSchema };

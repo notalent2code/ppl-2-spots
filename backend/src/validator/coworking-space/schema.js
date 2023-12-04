@@ -13,7 +13,7 @@ const CreateCoworkingSpaceSchema = Joi.object({
     .custom((value, helpers) => {
       const facilityIds = value.split(',').map((facility) => facility.trim());
       if (facilityIds.every((id) => /^\d+$/.test(id))) {
-        return facilityIds;
+        return value;
       }
       return helpers.error('any.custom', { message: 'Invalid facility IDs' });
     }),
@@ -30,7 +30,7 @@ const UpdateCoworkingSpaceSchema = Joi.object({
   facilities: Joi.string().custom((value, helpers) => {
     const facilityIds = value.split(',').map((facility) => facility.trim());
     if (facilityIds.every((id) => /^\d+$/.test(id))) {
-      return facilityIds;
+      return value;
     }
     return helpers.error('any.custom', { message: 'Invalid facility IDs' });
   }),

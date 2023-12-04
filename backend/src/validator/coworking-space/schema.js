@@ -11,15 +11,11 @@ const CreateCoworkingSpaceSchema = Joi.object({
   facilities: Joi.string()
     .required()
     .custom((value, helpers) => {
-      try {
-        const parsedValue = JSON.parse(value);
-        if (Array.isArray(parsedValue)) {
-          return parsedValue;
-        }
-        throw new Error('Invalid array format');
-      } catch (error) {
-        return helpers.error('any.custom', { message: 'Invalid array format' });
+      const facilityIds = value.split(',').map((facility) => facility.trim());
+      if (facilityIds.every((id) => /^\d+$/.test(id))) {
+        return facilityIds;
       }
+      return helpers.error('any.custom', { message: 'Invalid facility IDs' });
     }),
 });
 
@@ -32,15 +28,11 @@ const UpdateCoworkingSpaceSchema = Joi.object({
   latitude: Joi.number(),
   longitude: Joi.number(),
   facilities: Joi.string().custom((value, helpers) => {
-    try {
-      const parsedValue = JSON.parse(value);
-      if (Array.isArray(parsedValue)) {
-        return parsedValue;
-      }
-      throw new Error('Invalid array format');
-    } catch (error) {
-      return helpers.error('any.custom', { message: 'Invalid array format' });
+    const facilityIds = value.split(',').map((facility) => facility.trim());
+    if (facilityIds.every((id) => /^\d+$/.test(id))) {
+      return facilityIds;
     }
+    return helpers.error('any.custom', { message: 'Invalid facility IDs' });
   }),
 });
 

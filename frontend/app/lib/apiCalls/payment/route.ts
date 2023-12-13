@@ -1,5 +1,4 @@
-import { serialize } from "cookie";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { apiSecured } from "../api";
 
@@ -27,7 +26,6 @@ export async function POST(request: Request) {
       return response;
     } catch (error) {
       const err = error as AxiosError;
-      console.log("err ", err);
       return err.response;
     }
   }

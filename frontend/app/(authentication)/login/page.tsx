@@ -1,18 +1,18 @@
 "use client";
 
-import ResetPasswordModal from "@/app/components/ForgotPasswordModal";
-import api from "@/app/lib/apiCalls/api";
-import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
-import axios, { AxiosError } from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useCallback } from "react";
+import axios, { AxiosError } from "axios";
+import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
 import toast from "react-hot-toast";
+import ResetPasswordModal from "@/app/components/ForgotPasswordModal";
 
 export default function Login() {
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const { setUserType } = useUserInfoContext();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,30 +28,38 @@ export default function Login() {
         password: password,
       });
 
-      const userType = response.data.userType;
-      let homeUrl = "/";
+      if (response.status === 200) {
+        const userType = response.data.userType;
+        let homeUrl = "/";
 
-      setUserType(userType);
+        setUserType(userType);
 
-      switch (userType) {
-        case "TENANT":
-          break;
-        case "OWNER":
-          homeUrl = "/owner";
-          break;
-        case "ADMIN":
-          homeUrl = "/admin/penyewa";
-        default:
-          break;
+        switch (userType) {
+          case "TENANT":
+            break;
+          case "OWNER":
+            homeUrl = "/owner";
+            break;
+          case "ADMIN":
+            homeUrl = "/admin/penyewa";
+          default:
+            break;
+        }
+
+        toast.success("Login berhasil");
+        if (searchParams.get("redirect") === "true") {
+          router.back();
+        } else {
+          setTimeout(() => {
+            router.push(homeUrl);
+          }, 500);
+        }
       }
-
-      toast.success("Login berhasil");
-      setTimeout(() => {
-        router.push(homeUrl);
-      }, 500);
     } catch (error) {
       const err: any = error as AxiosError;
-      toast.error(err?.response?.data);
+      const message =
+        err?.response?.data?.message ?? err?.response?.data ?? "Daftar gagal";
+      toast.error(message);
     }
   }
 
@@ -95,16 +103,10 @@ export default function Login() {
         </p>
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button
-            type="submit"
-            className="mt-6 block bg-blue-950 px-6 py-3 text-white hover:bg-blue-400 active:bg-green-400 md:px-20"
-          >
+          <button type="submit" className="auth-submit-button">
             Masuk
           </button>
-          <Link
-            className="mt-6 block rounded-lg bg-gray-200 px-6 py-3 font-semibold text-blue-950 hover:bg-blue-400 active:bg-green-400 md:px-20"
-            href="/signup"
-          >
+          <Link className="auth-link-button" href="/signup">
             Daftar
           </Link>
         </div>

@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   const tokenPattern = /(?<=spots\-user\-token\=)\S[^;]*/i;
   const refreshTokenPattern = /refresh\S[^;]*/i;
   const loggedInUserRoute =
-    /\/((?=admin|owner|booking|transaksi|profile|riwayat-booking).*)/i;
+    /\/((?=admin|owner|booking|transaksi|profile|riwayat-booking|booking-detail).*)/i;
   const authRoute = /\/((?=login|signup|auth).*)/i;
 
   const signedUserPath = path.match(loggedInUserRoute);
@@ -20,9 +20,9 @@ export function middleware(request: NextRequest) {
   if (cookie) {
     let token = cookie.match(tokenPattern) ?? null;
 
-    if (token) {
-      let { userType } = jwt.decode(token[0]);
-      typeOfUser = userType;
+    if (token && token[0]) {
+      let decodedToken = jwt.decode(token[0]);
+      typeOfUser = decodedToken?.userType;
     }
   }
 

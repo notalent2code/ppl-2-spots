@@ -1,6 +1,5 @@
 "use client";
 
-import api from "@/app/lib/apiCalls/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -26,7 +25,7 @@ export default function SearchBar() {
         />
 
         <button
-          className="mt-4 h-12 w-full rounded-full bg-darkblue px-6 py-2 font-medium text-white active:bg-green-500 stm:ml-12 stm:mt-0 stm:w-36"
+          className="button-color-state mt-4 h-12 w-full rounded-full bg-darkblue px-6 py-2 font-medium text-white stm:ml-12 stm:mt-0 stm:w-36"
           type="submit"
         >
           Cari

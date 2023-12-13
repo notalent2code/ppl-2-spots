@@ -16,7 +16,6 @@ export async function DELETE() {
         },
       });
 
-      // console.log("dalam ", response);
       return response;
     } catch (error) {
       const err = error as AxiosError;
@@ -25,8 +24,6 @@ export async function DELETE() {
   }
 
   const result = await logout();
-
-  // console.log("log ", result);
 
   if (result?.status === 200) {
     cookie.delete(process.env.TOKEN_NAME);

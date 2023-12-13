@@ -57,14 +57,20 @@ export default function SpaceForm({
     try {
       const form = new FormData();
 
-      form.append("name", name);
-      form.append("description", desc);
-      form.append("price", price);
-      form.append("capacity", capacity);
-      form.append("address", address);
-      if (latitude !== -6.919868442060335)
+      if (name !== spaceData?.name) form.append("name", name);
+      if (desc !== spaceData?.description) form.append("description", desc);
+      if (price !== spaceData?.price) form.append("price", price);
+      if (
+        capacity !== spaceData?.capacity.toString() &&
+        capacity !== "0" &&
+        capacity !== ""
+      )
+        form.append("capacity", capacity);
+      if (address !== spaceData?.location.address)
+        form.append("address", address);
+      if (latitude !== spaceData?.location.latitude)
         form.append("latitude", latitude.toString());
-      if (longitude !== 107.61790605727128)
+      if (longitude !== spaceData?.location.longitude)
         form.append("longitude", longitude.toString());
       if (images) {
         for (let i = 0; i < images.length; i++) {
@@ -118,9 +124,13 @@ export default function SpaceForm({
 
   return (
     <form
-      className="mb-8 rounded-xl shadow-lg"
+      className="mb-8 rounded-xl border border-gray-300 shadow-lg"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (capacity === "" || capacity === "0" || /[^\d]/.test(capacity)) {
+          toast.error("Kapasitas tidak valid");
+          return;
+        }
         postSpace();
       }}
     >
@@ -239,7 +249,7 @@ export default function SpaceForm({
 
       <div className="flex justify-evenly">
         <button
-          className="m-4 w-fit bg-green-300 p-3 text-black hover:bg-green-600 active:bg-green-700"
+          className="button-color-state m-4 block w-fit bg-green-700 p-3 px-20 py-3 text-white hover:bg-green-500 active:bg-teal-600"
           type="submit"
         >
           Submit

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import AsideLayout from "./AsideLayout";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
 
 export default function AdminAside() {
   const activeColor = "bg-blue-700 ";

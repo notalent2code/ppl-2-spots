@@ -28,25 +28,25 @@ export default function StatusBlockColor(
   } else if (status === "ADMIN" && paramsId && approvingFunction) {
     return (
       <>
-        <div
-          className={`cursor-pointer bg-gray-200 font-semibold text-green-500 ${baseStyle}`}
+        <button
+          className={`my-2 w-full border-2 text-green-500 hover:border-gray-300 hover:bg-gray-300 active:bg-teal-600 ${baseStyle}`}
           onClick={(e) => {
             e.preventDefault();
             approvingFunction(paramsId, true);
           }}
         >
           {"Approve"}
-        </div>
+        </button>
 
-        <div
-          className={`my-2 cursor-pointer bg-gray-200 font-semibold text-red-500 ${baseStyle}`}
+        <button
+          className={`my-2 w-full border-2 text-red-500 hover:border-gray-300 hover:bg-gray-300 active:bg-teal-600 ${baseStyle}`}
           onClick={(e) => {
             e.preventDefault();
             approvingFunction(paramsId, false);
           }}
         >
           {"Reject"}
-        </div>
+        </button>
       </>
     );
   }

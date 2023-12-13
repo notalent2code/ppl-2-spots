@@ -1,10 +1,9 @@
 "use client";
 
-import OwnerInfoForm from "@/app/components/Form/OwnerCredentialForm";
-import useApiSecured from "@/app/lib/hooks/useApiSecured";
-import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { AxiosError } from "axios";
+import useApiSecured from "@/app/lib/hooks/useApiSecured";
 import toast from "react-hot-toast";
 
 export default function EditOwnerCredential() {
@@ -44,7 +43,6 @@ export default function EditOwnerCredential() {
       <title>Update Data Diri</title>
       <h1 className="pl-0 text-center">Perbarui Data Penyedia</h1>
 
-      {/* <OwnerInfoForm /> */}
       <form
         className="block"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +50,7 @@ export default function EditOwnerCredential() {
           getOwnerProfile();
         }}
       >
-        <section className="mx-10 mb-4 rounded-xl pb-4 shadow-lg">
+        <section className="mx-10 mb-4 rounded-xl border pb-4 shadow-lg">
           <div className="flex justify-center">
             <div className="flex w-10/12 items-center justify-center">
               <p className="w-4/12 text-lg text-black">Nama Bank</p>
@@ -109,7 +107,7 @@ export default function EditOwnerCredential() {
 
           <div className="flex justify-evenly">
             <button
-              className="mt-4 w-fit bg-green-300 p-3 text-center font-semibold text-darkblue hover:bg-green-600 active:bg-green-700"
+              className="button-color-state mt-4 block bg-green-700 px-20 py-3 text-white hover:bg-green-500 active:bg-teal-600"
               type="submit"
             >
               Submit

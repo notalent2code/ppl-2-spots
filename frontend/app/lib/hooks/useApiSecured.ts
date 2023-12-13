@@ -14,10 +14,8 @@ export default function useApiSecured() {
         const err = error as AxiosError;
         // @ts-ignore
         const priorReq = err.response.config;
-        console.log("refresh ", err.response);
 
         if (err?.response?.status === 403 && !sent) {
-          console.log("inside", sent);
           sent = true;
           await axios("/lib/apiCalls/auth/refresh");
 

@@ -1,17 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import useApiSecured from "@/app/lib/hooks/useApiSecured";
-import { AxiosError } from "axios";
-import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { AxiosError } from "axios";
+import useApiSecured from "@/app/lib/hooks/useApiSecured";
+import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
+import toast from "react-hot-toast";
+import TenantProfileLoadingCard from "./loading";
 
 export default function Profile() {
-  const router = useRouter();
+  const { push } = useRouter();
   const axiosSecured = useApiSecured();
-  const { profile, setProfile } = useUserInfoContext();
+  const { profile, userType, setProfile } = useUserInfoContext();
 
   const [editInput, setEditInput] = useState(false);
 
@@ -35,14 +36,24 @@ export default function Profile() {
   }, []);
 
   async function updateProfile() {
+    if (!profile) return;
+
     try {
       const form = new FormData();
 
       if (picture !== null) form.append("avatarURL", picture);
-      form.append("firstName", firstName || "");
-      form.append("lastName", lastName || "");
-      form.append("email", email || "");
-      form.append("phoneNumber", phoneNumber || "");
+      if (firstName && firstName !== profile.user.first_name)
+        form.append("firstName", firstName);
+      if (lastName && lastName !== profile.user.last_name)
+        form.append("lastName", lastName);
+      if (email && email !== profile.user.email) form.append("email", email);
+      if (phoneNumber && phoneNumber !== profile.user.phone_number)
+        form.append("phoneNumber", phoneNumber);
+
+      if (form.entries().next().done) {
+        setEditInput(false);
+        return;
+      }
 
       const response = await axiosSecured.put("/lib/apiCalls/tenant", form);
 
@@ -55,16 +66,19 @@ export default function Profile() {
     }
   }
 
+  if (!profile) return <TenantProfileLoadingCard />;
+  if (userType === "UNASSIGNED") push("/");
+
   return (
     <form
-      className="justtify-center my-10 block items-center bg-darkblue py-20"
+      className="justtify-center mb-10 mt-6 block items-center bg-darkblue pb-6"
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateProfile();
       }}
     >
       <div className="flex justify-center">
-        <div className="m-6 rounded-2xl bg-slate-100 p-8">
+        <div className="m-4 rounded-2xl bg-slate-100 p-4">
           <Image
             alt="profile-picture"
             className="aspect-square rounded-md object-cover"
@@ -94,7 +108,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="mx-8 rounded-xl bg-darkgray p-6">
+      <div className="mx-8 rounded-xl bg-darkgray p-3">
         <div className="my-3 grid grid-cols-1 items-center md:grid-cols-3">
           <p className="w-full text-xl font-medium text-white">Nama Depan</p>
           <input
@@ -135,11 +149,10 @@ export default function Profile() {
           />
         </div>
 
-        <div className="grid items-center justify-center gap-y-6 pt-4 md:flex md:gap-x-28 md:pt-8">
+        <div className="grid items-center justify-center gap-y-6 pt-4 md:flex md:gap-x-28">
           {!editInput ? (
             <button
-              className="m-auto block w-48 rounded-full bg-green-700
-             py-3 text-center font-semibold text-white hover:bg-blue-400"
+              className="green-button-state m-auto w-48 rounded-full py-3"
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
                 enableEdit();
@@ -150,16 +163,14 @@ export default function Profile() {
           ) : (
             <>
               <button
-                className="block w-48 rounded-full bg-green-700
-                  py-3 text-center font-semibold text-white hover:bg-blue-400"
+                className="green-button-state w-48 rounded-full py-3"
                 type="submit"
               >
                 Submit
               </button>
 
               <button
-                className="block w-48 rounded-full bg-white
-                  py-3 text-center font-semibold text-darkblue hover:bg-blue-400"
+                className="white-button-state w-48 rounded-full py-3"
                 type="button"
                 onClick={cancel}
               >

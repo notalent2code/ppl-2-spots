@@ -50,33 +50,33 @@ export default function OwnerCredential() {
       <div className="h-screen overflow-auto">
         <h1 className="pl-0 text-center">Data Penyedia</h1>
 
-        <div className="mx-10 mb-4 grid min-h-[70vh] grid-cols-12 gap-y-4 rounded-xl p-4 shadow-lg">
+        <div className="mx-10 mb-4 grid min-h-[70vh] grid-cols-12 gap-y-4 rounded-xl border border-gray-300 p-4 shadow-lg">
           {owner && (
             <>
-              {/* <div className="flex justify-center"> */}
-              {/* <div className="flex w-10/12 items-center justify-center text-lg text-black"> */}
               <p className="col-span-3">Nama Depan</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
                 {owner.user.first_name}
               </div>
-              {/* </div> */}
-              {/* </div> */}
+
               <p className="col-span-3">Nama Belakang</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
                 {owner.user.last_name}
               </div>
+
               <p className="col-span-3">Email</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
                 {owner.user.email}
               </div>
+
               <p className="col-span-3">Nomor Telepon</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
                 {owner.user.phone_number}
               </div>
+
               <p className="col-span-3">NIK</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
@@ -88,6 +88,7 @@ export default function OwnerCredential() {
                   </span>
                 )}
               </div>
+
               <p className="col-span-3">Bank</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">
@@ -99,6 +100,7 @@ export default function OwnerCredential() {
                   </span>
                 )}
               </div>
+
               <p className="col-span-3">Nomor Kartu</p>
               <div className="col-span-1">:</div>
               <div className="col-span-8 rounded-xl text-center">

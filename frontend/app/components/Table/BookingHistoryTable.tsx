@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import StatusBlockColor from "@/app/components/StatusBlockColor";
-import useApiSecured from "@/app/lib/hooks/useApiSecured";
-import toast from "react-hot-toast";
-import moneySplitter from "@/app/lib/moneySplitter";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import useApiSecured from "@/app/lib/hooks/useApiSecured";
+import StatusBlockColor from "@/app/components/StatusBlockColor";
+import moneySplitter from "@/app/lib/moneySplitter";
+import toast from "react-hot-toast";
 
 export interface BookingHistory {
   booking_id: string;
@@ -50,14 +50,12 @@ export default function BookingHistoryTable() {
     >
       <thead className="table-head">
         <tr className="flex w-full items-center rounded-tl-xl rounded-tr-xl bg-darkgray text-center">
-          <th className="w-3/12 p-2 font-medium text-white">Nomor Booking</th>
-          <th className="w-2/12 p-2 font-medium text-white">Tanggal Booking</th>
-          <th className="w-3/12 p-2 font-medium text-white">
+          <th className="w-52 p-2 font-medium text-white">Nomor Booking</th>
+          <th className="w-44 p-2 font-medium text-white">Tanggal Booking</th>
+          <th className="w-52 p-2 font-medium text-white">
             Nama Coworking Space
           </th>
-          <th className="w-2/12 p-2 font-medium text-white">
-            Jumlah Pembayaran
-          </th>
+          <th className="w-32 p-2 font-medium text-white">Jumlah Pembayaran</th>
           <th className="w-40 p-2 font-medium text-white">Status</th>
         </tr>
       </thead>
@@ -72,20 +70,20 @@ export default function BookingHistoryTable() {
                   className="flex w-full items-center text-center"
                   key={b.booking_id}
                 >
-                  <td className="w-3/12 break-words p-2">{b.booking_id}</td>
+                  <td className="w-52 break-words p-2">{b.booking_id}</td>
 
-                  <td className="w-2/12 break-words p-2">
+                  <td className="w-44 break-words p-2">
                     {b.date.replace(b.date, (match) => {
                       const date = new Date(match);
                       return date.toDateString();
                     })}
                   </td>
 
-                  <td className="w-3/12 break-words p-2">
+                  <td className="w-52 break-words p-2">
                     {b.coworking_space.name}
                   </td>
 
-                  <td className="w-2/12 break-words p-2">
+                  <td className="w-32 break-words p-2">
                     Rp.{" "}
                     {b.payment?.amount ? moneySplitter(b.payment.amount) : "-"}
                   </td>

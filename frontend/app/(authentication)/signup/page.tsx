@@ -1,11 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import api from "@/app/lib/apiCalls/api";
 import phoneNumberFormatCheck from "@/app/lib/phoneNumberParser";
-import Link from "next/link";
 import toast from "react-hot-toast";
 
 export default function Signup() {
@@ -20,7 +20,7 @@ export default function Signup() {
   const [userType, setUserType] = useState("TENANT");
 
   const style =
-    "mx-3 my-1 mt-4 w-11/12 rounded-xl border border-gray-300 py-2 text-center";
+    "mx-auto md:mt-0 mt-4 w-11/12 rounded-xl border border-gray-300 py-2 text-center";
 
   let passwordMatch = true;
 
@@ -31,7 +31,7 @@ export default function Signup() {
   function registerUser() {
     const post = async () => {
       try {
-        await api.post("/auth/register", {
+        const response = await api.post("/auth/register", {
           email: email,
           password: password,
           confirmPassword: confirmPassword,
@@ -40,8 +40,11 @@ export default function Signup() {
           phoneNumber: phoneNumber,
           userType: userType,
         });
-        toast.success("Akun berhasil didaftarkan");
-        router.push("/login");
+
+        if (response.status === 201) {
+          toast.success("Akun berhasil didaftarkan");
+          router.push("/login");
+        }
       } catch (error) {
         const err = error as AxiosError;
         //@ts-ignore
@@ -58,7 +61,8 @@ export default function Signup() {
       <title>Signup</title>
 
       <form
-        onSubmit={(e: any) => {
+        className="gap-y-4 md:grid"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (password.length < 8) {
             toast.error("Password minimal 8 digit!");
@@ -74,7 +78,7 @@ export default function Signup() {
         <input
           type="text"
           placeholder="Nama Depan"
-          className={style}
+          className={"-mt-4 " + style}
           required
           value={firstName}
           onChange={(e: any) => setFirstName(e.target.value)}
@@ -116,21 +120,27 @@ export default function Signup() {
           onChange={(e: any) => setConfirmPassword(e.target.value)}
         />
 
-        {!passwordMatch && <p className="text-red-400">Password tidak cocok</p>}
+        {!passwordMatch && (
+          <p className="-my-3 text-red-400">Password tidak cocok</p>
+        )}
 
         <input
           type="number"
           placeholder="Nomor Telepon"
-          className="mx-3 my-1 mt-4 w-11/12 rounded-xl border border-gray-300 py-2 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          className={
+            style +
+            " [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          }
           required
           value={phoneNumber}
           onChange={(e: any) => setPhoneNumber(e.target.value)}
         />
 
-        <div className="flex items-center justify-evenly">
+        <div className="mx-auto mt-4 flex w-11/12 items-center justify-evenly py-2 md:mt-0">
           <p>Daftar Sebagai</p>
+
           <select
-            className="select select-bordered m-2 w-full max-w-xs rounded-xl border-2 py-2 text-center"
+            className="select select-bordered w-full max-w-xs rounded-xl border-2 border-gray-300 py-2 text-center"
             required
             value={userType}
             onChange={(e: any) => setUserType(e.target.value)}
@@ -143,16 +153,10 @@ export default function Signup() {
         <hr className="mt-4" />
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button
-            type="submit"
-            className="mt-6 block bg-blue-950 px-6 py-3 text-white hover:bg-blue-400 active:bg-green-400 md:px-20"
-          >
+          <button type="submit" className="auth-submit-button">
             Daftar
           </button>
-          <Link
-            className="mt-6 block rounded-lg bg-gray-200 px-6 py-3 font-semibold text-blue-950 hover:bg-blue-400 active:bg-green-400 md:px-20"
-            href="/login"
-          >
+          <Link className="auth-link-button" href="/login">
             Login
           </Link>
         </div>

@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useApiSecured from "@/app/lib/hooks/useApiSecured";
 import moneySplitter from "@/app/lib/moneySplitter";
-import MainLoading from "@/app/components/MainLoading";
 import toast from "react-hot-toast";
 
 export type BookingDetail = {
@@ -33,10 +32,7 @@ export type BookingDetail = {
 export default function BookingDetailCallback() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  if (
-    !searchParams.get("order_id")
-    // !searchParams.get("status_code") ||
-  ) {
+  if (!searchParams.get("order_id")) {
     router.back();
   }
   const id = searchParams.get("order_id");
@@ -125,7 +121,7 @@ export default function BookingDetailCallback() {
       </strong>
 
       <form
-        className="m-auto mb-5"
+        className="m-auto"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           download();
@@ -313,19 +309,17 @@ export default function BookingDetailCallback() {
           </div>
         </div>
 
-        <div className="grid items-center justify-center md:flex md:gap-x-28">
+        <div className="grid grid-cols-1 items-center justify-between md:flex md:grid-cols-2">
           <button
             type="submit"
-            className="mt-10 block w-48 rounded-full bg-darkblue
-            py-3 text-center font-semibold text-white hover:bg-teal-700"
+            className="button-color-state md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:outline-2 focus:outline-green-600"
           >
             Download
           </button>
 
           <Link
             type="submit"
-            className="mt-10 block w-48 rounded-full bg-gray-200
-            py-3 text-center font-semibold hover:bg-blue-400"
+            className="white-button-state md:px-auto m-auto my-6 block w-52 rounded-full border-2 py-3 text-center font-semibold focus:outline-2 focus:outline-green-600"
             href="/riwayat-booking"
           >
             Riwayat Booking

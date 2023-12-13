@@ -1,14 +1,10 @@
 import Image from "next/image";
 import Footer from "../components/Footer";
-import axios from "axios";
-import TopLoadingBar from "../components/TopLoadingBar";
 
 export default function Home() {
   return (
     <div className="absolute top-0">
       <title>Spots</title>
-
-      {/* <TopLoadingBar /> */}
 
       <div className="relative h-min bg-darkgray">
         <Image
@@ -17,7 +13,7 @@ export default function Home() {
           width={1440}
           height={810}
           alt="office"
-          priority
+          priority={true}
         />
 
         <h1 className="absolute bottom-0 text-xl text-white sm:text-3xl md:text-5xl">

@@ -39,13 +39,19 @@ export default function AdminPenyewa() {
       <table className="table-container h-5/6 w-full">
         <thead className="table-head">
           <tr className="flex h-full w-full items-center rounded-tl-xl rounded-tr-xl bg-darkgray text-center">
-            <th className="w-1/12 flex-auto p-2 font-medium text-white">
+            <th className="w-24 flex-auto p-2 font-medium text-white lg:w-1/12">
               Tenant ID
             </th>
-            <th className="w-2/12 p-2 font-medium text-white">Nama Depan</th>
-            <th className="w-2/12 p-2 font-medium text-white">Nama Belakang</th>
-            <th className="w-4/12 p-2 font-medium text-white">Email</th>
-            <th className="w-3/12 p-2 font-medium text-white">Nomor Telepon</th>
+            <th className="w-36 p-2 font-medium text-white lg:w-2/12">
+              Nama Depan
+            </th>
+            <th className="w-36 p-2 font-medium text-white lg:w-2/12">
+              Nama Belakang
+            </th>
+            <th className="w-64 p-2 font-medium text-white lg:w-4/12">Email</th>
+            <th className="w-36 p-2 font-medium text-white lg:w-3/12">
+              Nomor Telepon
+            </th>
           </tr>
         </thead>
 
@@ -56,19 +62,23 @@ export default function AdminPenyewa() {
               tenants.map((t) => {
                 return (
                   <tr className="item-center flex w-full" key={t.tenant_id}>
-                    <td className="w-1/12 break-words p-2">{t.tenant_id}</td>
+                    <td className="w-24 break-words p-2 lg:w-1/12">
+                      {t.tenant_id}
+                    </td>
 
-                    <td className="w-2/12 break-words p-2">
+                    <td className="w-36 break-words p-2 lg:w-2/12">
                       {t.user.first_name}
                     </td>
 
-                    <td className="w-2/12 break-words p-2">
+                    <td className="w-36 break-words p-2 lg:w-2/12">
                       {t.user.last_name}
                     </td>
 
-                    <td className="w-4/12 break-words p-2">{t.user.email}</td>
+                    <td className="w-64 break-words p-2 lg:w-4/12">
+                      {t.user.email}
+                    </td>
 
-                    <td className="w-3/12 break-words p-2">
+                    <td className="w-36 break-words p-2 lg:w-3/12">
                       {t.user.phone_number}
                     </td>
                   </tr>

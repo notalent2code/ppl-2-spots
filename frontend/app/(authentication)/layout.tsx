@@ -15,18 +15,8 @@ export default function AuthLayout({
 
   return (
     <main>
-      <div
-        className={
-          (page === "Signup" ? "pt-12 " : "") +
-          "flex h-screen items-center justify-center overflow-y-scroll bg-darkblue"
-        }
-      >
-        <div
-          className={
-            (page === "Signup" ? "  sm:max-w-xl " : "") +
-            "right relative mb-8 mt-20 flex w-fit flex-col justify-center rounded-xl bg-white text-center"
-          }
-        >
+      <div className="grid h-screen items-center justify-center overflow-auto bg-darkblue">
+        <div className="relative mb-8 mt-20 block w-fit justify-center bg-white text-center sm:max-w-xl sm:rounded-xl">
           <Link href={"/"}>
             <Image
               className="absolute -top-12 left-1/2 w-[90px] -translate-x-1/2 rounded-t-full bg-white p-2 duration-200 ease-in-out hover:scale-110 sm:-top-16 sm:w-[120px]"

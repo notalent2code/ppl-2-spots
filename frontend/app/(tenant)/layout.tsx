@@ -1,13 +1,10 @@
 "use client";
 
-import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import Navbar from "../components/Navbar";
-import TopLoadingBar from "../components/TopLoadingBar";
-import { usePathname } from "next/navigation";
 import useApiSecured from "../lib/hooks/useApiSecured";
 import MainLoading from "../components/MainLoading";
-import SpaceIdInfoProvider from "../lib/hooks/useSpaceIdInfo";
+import SpaceIdInfoProvider from "../lib/hooks/useSpaceIdInfoContext";
 import { useUserInfoContext } from "../lib/hooks/useUserInfoContext";
 
 export default function TenantLayout({
@@ -18,7 +15,7 @@ export default function TenantLayout({
   const axiosSecured = useApiSecured();
 
   const [checkLogin, setCheckLogin] = useState(false);
-  const { profile, setProfile } = useUserInfoContext();
+  const { profile, userType, setProfile, setUserType } = useUserInfoContext();
 
   useEffect(() => {
     async function getProfile() {
@@ -27,22 +24,21 @@ export default function TenantLayout({
 
         if (response.status === 200) {
           setProfile(response.data.tenant);
+          setUserType("TENANT");
         }
       } catch (error) {
-        console.error("unsigned user");
+        console.error("Unsigned user");
       }
       setCheckLogin(true);
     }
 
     getProfile();
-  }, [profile?.avatar_url]);
+  }, [profile?.avatar_url, userType]);
 
   if (!checkLogin) return <MainLoading />;
 
   return (
     <main>
-      {/* <TopLoadingBar /> */}
-
       <section className="h-[73px] min-w-min bg-darkblue">
         <Navbar />
       </section>

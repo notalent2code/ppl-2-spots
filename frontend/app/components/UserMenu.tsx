@@ -15,7 +15,7 @@ const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const axiosSecured = useApiSecured();
-  const { profile, setProfile } = useUserInfoContext();
+  const { profile, userType, setProfile, setUserType } = useUserInfoContext();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -23,7 +23,7 @@ const UserMenu = () => {
 
   useEffect(() => {
     setIsOpen(false);
-  }, [path]);
+  }, [path, userType]);
 
   async function logout() {
     try {
@@ -31,20 +31,20 @@ const UserMenu = () => {
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        setProfile(null);
         setIsOpen(false);
         push("/");
       }
     } catch (error) {
-      const err = error as AxiosError;
-      console.error(err?.response);
+      console.error("Error while logging out");
     }
+    setProfile(null);
+    setUserType("UNASSIGNED");
   }
 
   return (
     <div className="inline-flex">
       <div className="flex w-full flex-col items-start justify-center lg:ml-auto  lg:h-auto lg:w-auto lg:flex-row lg:items-center">
-        {profile?.avatar_url && (
+        {profile?.avatar_url && userType === "TENANT" && (
           <Image
             className="cursor-pointer rounded-full bg-white p-1"
             src={profile.avatar_url}
@@ -55,7 +55,7 @@ const UserMenu = () => {
           />
         )}
 
-        {!profile?.avatar_url && (
+        {!profile?.avatar_url && userType === "UNASSIGNED" && (
           <Link
             className="w-full justify-center rounded bg-white px-3 py-2 font-bold hover:bg-green-500 hover:text-white lg:inline-flex lg:w-auto"
             href="/login"

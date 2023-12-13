@@ -23,7 +23,6 @@ export default async function Explore({
         {pageIndex ? (
           <Link
             href={`/eksplorasi?page=${pageIndex}`}
-            scroll={false}
             className="flex items-center rounded-md bg-darkblue p-2"
           >
             {navArrow}

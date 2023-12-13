@@ -1,7 +1,7 @@
-import { serialize } from "cookie";
-import { AxiosError, AxiosResponse } from "axios";
-import api from "../../api";
 import { cookies } from "next/headers";
+import { serialize } from "cookie";
+import { AxiosError } from "axios";
+import api from "../../api";
 
 export async function POST(request: Request) {
   const cookie = cookies();
@@ -35,7 +35,6 @@ export async function POST(request: Request) {
     {
       httpOnly: true,
       sameSite: "strict",
-      // maxAge: 60 * 30,
     },
   );
 

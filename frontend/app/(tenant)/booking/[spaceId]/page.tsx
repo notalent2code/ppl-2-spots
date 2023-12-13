@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import CalendarView from "@/app/components/CalendarView";
+import { useEffect, useState } from "react";
 import useApiSecured from "@/app/lib/hooks/useApiSecured";
-import toast from "react-hot-toast";
 import {
   Availabilities,
   useSpaceIdInfoContext,
-} from "@/app/lib/hooks/useSpaceIdInfo";
+} from "@/app/lib/hooks/useSpaceIdInfoContext";
 import getSpaceByID from "@/app/lib/apiCalls/getSpaceByID";
 import { remapAvailabilities } from "../../detail/[spaceId]/ClientView";
+import CalendarView from "@/app/components/CalendarView";
+import toast from "react-hot-toast";
+import * as NProgress from "nprogress";
+import { AxiosError } from "axios";
 
 export default function Booking({ params }: { params: { spaceId: number } }) {
   const axiosSecured = useApiSecured();
@@ -19,6 +21,7 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
   const name = searchParams.get("name");
   const price = searchParams.get("price");
   if (!name || !price) router.back();
+  NProgress.done();
 
   const { schedule } = useSpaceIdInfoContext();
   const [backupSchedule, setBackupSchedule] = useState<Availabilities | null>(
@@ -26,8 +29,6 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
   );
 
   const time = new Date();
-  const today = time.toJSON().slice(0, 10);
-  const currentHour = time.getHours();
 
   const [date, setDate] = useState("");
   const [startHour, setStartHour] = useState("");
@@ -53,9 +54,17 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
 
       if (response.status === 200) {
         toast.success("Booking berhasil dikirim");
-        setTimeout(() => router.push(path), 500);
+        router.push(path);
       }
-    } catch (error) {}
+    } catch (error) {
+      const err = error as AxiosError;
+      const message =
+        //@ts-ignore
+        err.response?.data?.message === "Invalid booking time"
+          ? "Waktu telah di booking"
+          : "Gagal booking";
+      toast.error(message);
+    }
   }
 
   useEffect(() => {
@@ -80,14 +89,13 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
       </p>
 
       <form
-        className="m-auto mb-5 grid w-11/12 items-center rounded-xl border-2 border-dashed border-black py-5 lg:grid-cols-2"
+        className="m-auto mb-8 grid w-11/12 items-center rounded-xl border-2 border-dashed border-black py-5 lg:grid-cols-2"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (parseInt(startHour) >= parseInt(endHour)) {
             toast.error("Jam awal dan akhir valid");
-          } else if (date < today) {
-            toast.error("Hari tidak valid/telah berlalu");
-          } else if (date === today && parseInt(startHour) < currentHour) {
+            // cek apakah waktu telah berlalu dari waktu saat ini
+          } else if (Date.parse(`${date} ${startHour}:00`) < time.valueOf()) {
             toast.error("Waktu tidak valid/telah berlalu");
           } else {
             submitBooking();
@@ -95,7 +103,9 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
         }}
       >
         <div className="px-6 py-5 sm:px-10">
-          <p className="my-6 text-2xl font-bold text-black">Data Booking</p>
+          <p className="mb-10 mt-6 text-2xl font-bold text-darkblue">
+            Data Booking
+          </p>
           <div className="my-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-black">
               Nama Coworking Space
@@ -152,15 +162,6 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
 
         <div className="right flex flex-col items-center">
           <div className="mt-10 flex w-full justify-center rounded-full px-10 md:pr-10">
-            {/* {space && (
-            <Image
-              alt="room"
-              src={space.coworking_space_images[0].image_url}
-              className="rounded-xl"
-              width={500}
-              height={500}
-            />
-          )} */}
             {schedule || backupSchedule ? (
               <CalendarView bookedScheduleProps={schedule ?? backupSchedule} />
             ) : (
@@ -170,14 +171,24 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
               </div>
             )}
           </div>
-          <button
-            type="submit"
-            className="m-auto mt-10 block rounded-full bg-darkblue px-10 py-3
-              text-center font-semibold text-white hover:bg-teal-700 md:px-20"
-          >
-            Submit Booking
-          </button>
         </div>
+
+        <button
+          type="submit"
+          className="button-color-state md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:outline-2 focus:outline-green-600 lg:my-6"
+        >
+          Kirim Booking
+        </button>
+
+        <button
+          className="white-button-state md:px-auto m-auto mt-6 block w-52 rounded-full border-2 py-3 focus:outline-2 focus:outline-green-600 lg:my-6"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            router.back();
+          }}
+        >
+          Kembali
+        </button>
       </form>
     </>
   );

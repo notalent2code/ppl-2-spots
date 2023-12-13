@@ -1,16 +1,17 @@
 "use client";
 
-import api from "@/app/lib/apiCalls/api";
-import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useCallback } from "react";
+import { AxiosError } from "axios";
+import api from "@/app/lib/apiCalls/api";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const router = useRouter();
+  const { push } = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -21,6 +22,13 @@ export default function Login() {
   } else passwordMatch = true;
 
   async function submitResetPassword() {
+    if (!token) {
+      toast.error(
+        "Token ganti tidak ada, mohon akses link dari email anda atau kirim email permintaan lagi",
+      );
+      return;
+    }
+
     try {
       const response = await api.post("/auth/reset-password", {
         resetToken: token,
@@ -30,14 +38,13 @@ export default function Login() {
 
       if (response.status === 200) {
         toast.success("Ganti password berhasil");
-        setTimeout(() => router.push("/login"), 500);
+        push("/login");
       }
-      // setTimeout(() => {
-      //   toast.success("Login berhasil");
-      // }, 500);
     } catch (error) {
       const err: any = error as AxiosError;
-      toast.error(err?.response?.data);
+      const message = err?.response?.data?.message ?? "Gagal ganti password";
+
+      toast.error(message);
     }
   }
 
@@ -48,7 +55,7 @@ export default function Login() {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          submitResetPassword();
+          if (passwordMatch) submitResetPassword();
         }}
       >
         <input
@@ -69,22 +76,20 @@ export default function Login() {
           onChange={(e: any) => setConfirmPassword(e.target.value)}
         />
 
-        {!passwordMatch && <p className="text-red-400">Password tidak cocok</p>}
+        {!passwordMatch && (
+          <p className="absolute left-1/2 -translate-x-1/2 text-red-400">
+            Password tidak cocok
+          </p>
+        )}
 
         <hr />
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button
-            type="submit"
-            className="mt-6 block bg-blue-950 px-6 py-3 text-white hover:bg-blue-400 active:bg-green-400 md:px-20"
-          >
+          <button type="submit" className="auth-submit-button">
             Kirim
           </button>
-          <Link
-            className="mt-6 block rounded-lg bg-gray-200 px-6 py-3 font-semibold text-blue-950 hover:bg-blue-400 active:bg-green-400 md:px-20"
-            href="/login"
-          >
-            login
+          <Link className="auth-link-button" href="/login">
+            Login
           </Link>
         </div>
       </form>

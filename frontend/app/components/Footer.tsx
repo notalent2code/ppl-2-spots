@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <>
-      <div className="bg-darkblue flex h-1/2 w-full flex-col items-start justify-around p-20 md:flex-row">
+      <div className="flex h-1/2 w-full flex-col items-start justify-around bg-darkblue p-20 md:flex-row">
         <div className="mx-auto p-4 md:mx-0">
           <div>
             <Image
@@ -11,7 +11,7 @@ const Footer = () => {
               src="/spots-white.svg"
               height={420}
               width={220}
-              priority
+              priority={true}
             />
           </div>
         </div>
@@ -55,7 +55,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-darkblue flex w-full flex-col items-center justify-center gap-y-5 p-5 text-center ">
+      <div className="flex w-full flex-col items-center justify-center gap-y-5 bg-darkblue p-5 text-center ">
         <hr className="-mt-10 w-11/12 border-white" />
         <p className=" font-medium text-white">
           Copyright © 2023 SPOTS. All rights reserved.
@@ -63,6 +63,4 @@ const Footer = () => {
       </div>
     </>
   );
-};
-
-export default Footer;
+}

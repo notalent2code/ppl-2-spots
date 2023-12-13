@@ -4,8 +4,6 @@ import { apiSecured } from "../../api";
 
 export async function PUT(request: Request) {
   const { id, status } = await request.json();
-  // const route = (role === 'OWNER') ? `/admin/owners/${id}` : `/admin/coworking-space/${id}/verify`
-
   const cookie = cookies();
   const token = cookie.get(process.env.TOKEN_NAME);
 

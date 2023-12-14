@@ -17,7 +17,7 @@
   - [✔] Backend Fitur Booking 1 SP
 - Yahya: 1 SP
   - [✔] Frontend Landing Page 1sp
-- Bagus: 1 SP
+- Raihan: 1 SP
   - [✔] App Test 1 SP
         
 #### Delivered:	 3 SP

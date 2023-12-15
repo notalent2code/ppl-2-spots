@@ -45,7 +45,8 @@ export default function CoworkingTestSuite() {
           })
           .expectStatus(404);
       })
-      it('should return 200 if get profile by id is successfull', async () => {
+
+      it('should return 200 if get coworking space by id is successfull', async () => {
         const res = await pactum
           .spec()
           .get(`/coworking-spaces/`)
@@ -54,6 +55,7 @@ export default function CoworkingTestSuite() {
             space_id: 1,
           })
           .expectStatus(200);
+          console.log(res.body)
       });
     });
   });

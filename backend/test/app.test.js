@@ -5,6 +5,10 @@ import {
 } from './setup-teardown';
 import pactum from 'pactum';
 import AuthTestSuite from './auth.test';
+import TenantTestSuite from './tenant.test';
+import OwnerTestSuite from './owner.test';
+import CoworkingTestSuite from './coworking-space.test';
+import BookingTestSuite from './booking.test';
 
 describe('AppController', () => {
   beforeAll(async () => {
@@ -27,4 +31,8 @@ describe('AppController', () => {
   });
 
   AuthTestSuite();
+  TenantTestSuite();
+  OwnerTestSuite();
+  CoworkingTestSuite();
+  BookingTestSuite();
 });

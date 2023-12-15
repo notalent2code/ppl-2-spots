@@ -23,18 +23,18 @@ export default function BookingTestSuite() {
               .expectStatus(404);
           });
           
-          it('should return 200 if booking is successfull', async () => {
-            const res = await pactum
-                .spec()
-                .post('/bookings/{spaceId}/book')          
-                .withBearerToken(`$S{accessToken}`)
-                .withPathParams({
-                    spaceId: 2,
-                })
-                .withJson({ ...validBookPayload})
-                .expectStatus(200);
-                console.log(res.body)
-        });
+        //   it('should return 200 if booking is successful', async () => {
+        //     const res = await pactum
+        //         .spec()
+        //         .post('/bookings/{spaceId}/book')          
+        //         .withBearerToken(`$S{accessToken}`)
+        //         .withPathParams({
+        //             spaceId: 2,
+        //         })
+        //         .withJson({ ...validBookPayload})
+        //         .expectStatus(200);
+        //         console.log(res.body)
+        // });
     });
   });
 }

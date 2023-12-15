@@ -18,6 +18,9 @@ export default function AuthTestSuite() {
       password: 'VeryStrongPassword123!',
     };
 
+    const randomAccessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5';
+
     describe('POST /auth/register', () => {
       it('should return 400 if payload is empty', async () => {
         await pactum
@@ -99,7 +102,7 @@ export default function AuthTestSuite() {
               user_id: expect.any(Number),
               nik: null,
               ktp_picture: null,
-              balance: "0",
+              balance: '0',
               bank_name: null,
               card_number: null,
               status: 'PENDING',
@@ -117,6 +120,113 @@ export default function AuthTestSuite() {
 
         expect(res.body).toStrictEqual({
           message: 'User already exists',
+        });
+      });
+    });
+
+    describe('POST /auth/login', () => {
+      it('should return 400 if payload is empty', async () => {
+        await pactum.spec().post('/auth/login').withJson({}).expectStatus(400);
+      });
+
+      it('should return 401 if payload is invalid', async () => {
+        const res = await pactum
+          .spec()
+          .post('/auth/login')
+          .withJson({
+            ...validLoginPayload,
+            password: 'weakpassword',
+          })
+          .expectStatus(401);
+
+        expect(res.body).toStrictEqual({
+          message: expect.any(String),
+        });
+      });
+
+      it('should return 200 if login tenant is successfull', async () => {
+        const res = await pactum
+          .spec()
+          .post('/auth/login')
+          .withJson(validLoginPayload)
+          .expectStatus(200)
+          .stores('accessToken', 'res.body.accessToken')
+          .stores('refresh_token', 'res.headers.set-cookie[0]');
+
+        expect(res.body).toStrictEqual({
+          firstName: validRegisterPayload.firstName,
+          userId: expect.any(Number),
+          userType: validRegisterPayload.userType,
+          message: 'Login success',
+          accessToken: expect.any(String),
+        });
+      });
+
+      it('should return 200 if login owner is successfull', async () => {
+        const res = await pactum
+          .spec()
+          .post('/auth/login')
+          .withJson({ ...validLoginPayload, email: 'test2@gmail.com' })
+          .expectStatus(200)
+          .stores('accessTokenOwner', 'res.body.accessToken');
+
+        expect(res.body).toStrictEqual({
+          firstName: validRegisterPayload.firstName,
+          userId: expect.any(Number),
+          userType: 'OWNER',
+          message: 'Login success',
+          accessToken: expect.any(String),
+        });
+      });
+    });
+
+    describe('GET /auth/refresh-token', () => {
+      it('should return 401 if access is denied', async () => {
+        const res = await pactum
+          .spec()
+          .get('/auth/refresh-token')
+          .expectStatus(401);
+
+        expect(res.body).toStrictEqual('Access denied');
+      });
+
+      it('should return 200 if refresh-token is successfull', async () => {
+        const res = await pactum
+          .spec()
+          .get('/auth/refresh-token')
+          .withHeaders('cookie', '$S{refresh_token}')
+          .expectStatus(200);
+
+        console.log('res.body', res.body);
+
+        expect(res.body).toStrictEqual({
+          accessToken: expect.any(String),
+        });
+      });
+    });
+
+    describe('DELETE /auth/logout', () => {
+      it('should return 401 if user is not logged in', async () => {
+        const res = await pactum
+          .spec()
+          .delete('/auth/logout')
+          .expectStatus(401);
+
+        expect(res.body).toStrictEqual({
+          message: 'Access denied',
+        });
+      });
+
+      it('should return 204 if logout is successfull', async () => {
+        const res = await pactum
+          .spec()
+          .delete('/auth/logout')
+          .withBearerToken(`$S{accessToken}`)
+          .withHeaders('cookie', '$S{refresh_token}')
+          .expectStatus(200);
+
+        expect(res.body).toStrictEqual({
+          message: 'Logout success',
         });
       });
     });

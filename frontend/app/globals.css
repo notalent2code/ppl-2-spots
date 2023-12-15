@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* default element tag styling */
+button {
+  @apply cursor-pointer rounded-lg text-center font-semibold;
+}
+
+hr {
+  @apply mx-auto mt-10 w-10/12 border-blue-950;
+}
+
+h1 {
+  @apply mt-6 py-8 pl-6 text-3xl font-bold text-darkblue md:pl-12;
+}
+
+/*  */
+/* custom class */
+
+.h-detailview {
+  height: calc(100vh - 73px);
+}
+
+.table-section {
+  @apply col-span-8 h-screen max-h-screen overflow-x-auto overflow-y-clip px-8 pb-8 md:col-span-6;
+}
+
+.table-h1 {
+  @apply sticky left-0 mb-4 mt-0 grid h-1/6 items-center pl-0 text-center;
+}
+
+.table-container {
+  @apply mx-auto overflow-x-auto rounded-xl shadow-lg;
+}
+
+.table-head {
+  @apply h-fit w-full;
+}
+
+.table-body {
+  @apply flex h-full w-full flex-col items-center overflow-y-auto rounded-bl-xl rounded-br-xl text-black;
+}
+
+.button-color-state {
+  @apply hover:bg-sky-900 active:bg-teal-600;
+}
+
+.white-button-state {
+  @apply bg-white text-darkblue hover:bg-gray-300 active:bg-teal-600;
+}
+
+.green-button-state {
+  @apply bg-green-800 text-white hover:bg-green-600 active:bg-teal-600;
+}
+
+.rounded-submit-button {
+  @apply m-auto mt-5 block rounded-full bg-darkblue px-20 py-3 text-center font-semibold text-white hover:bg-teal-600;
+}
+
+.auth-submit-button {
+  @apply button-color-state mt-6 block border-2 border-darkblue bg-darkblue px-6 py-3 text-white hover:border-sky-900 active:border-teal-600 md:px-20;
+}
+
+.auth-link-button {
+  @apply mt-6 block rounded-lg border-2 bg-white px-6 py-3 font-semibold text-darkblue hover:border-gray-300 hover:bg-gray-300 active:border-teal-600 active:bg-teal-600 md:px-20;
+}
+
+/*  */
+
+/* scrollbar */
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(196, 196, 196, 0.4);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(98, 111, 128, 0.4);
+  border-radius: 8px;
+  /* border: 3px solid rgba(31, 209, 253, 0.4); */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(9, 33, 99, 0.4);
+}

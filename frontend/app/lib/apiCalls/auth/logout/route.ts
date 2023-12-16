@@ -25,12 +25,8 @@ export async function DELETE() {
 
   const result = await logout();
 
-  if (result?.status === 200) {
-    cookie.delete(process.env.TOKEN_NAME);
-    cookie.delete("refreshToken");
+  cookie.delete(process.env.TOKEN_NAME);
+  cookie.delete("refreshToken");
 
-    return Response.json(result?.data, { status: 200 });
-  } else {
-    return Response.json(result?.data, { status: 403 });
-  }
+  return Response.json(result?.data, { status: result?.status });
 }

@@ -56,7 +56,7 @@ export default function AdminPenyewa() {
         </thead>
 
         <tbody className="table-body">
-          {isFetched &&
+          {isFetched ? (
             tenants &&
             (tenants.length !== 0 ? (
               tenants.map((t) => {
@@ -88,7 +88,14 @@ export default function AdminPenyewa() {
               <tr className="flex w-full">
                 <td className="grid w-full justify-center p-4">Data Kosong</td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <>
+              <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+              <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+              <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            </>
+          )}
         </tbody>
       </table>
     </section>

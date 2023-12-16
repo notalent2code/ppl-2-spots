@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { AxiosError } from "axios";
 import api from "@/app/lib/apiCalls/api";
+import SubmitButton from "@/app/components/SubmitButton";
 import toast from "react-hot-toast";
 
 export default function Login() {
@@ -12,6 +13,7 @@ export default function Login() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
+  const [click, setClick] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -22,6 +24,7 @@ export default function Login() {
   } else passwordMatch = true;
 
   async function submitResetPassword() {
+    setClick(true);
     if (!token) {
       toast.error(
         "Token ganti tidak ada, mohon akses link dari email anda atau kirim email permintaan lagi",
@@ -46,6 +49,7 @@ export default function Login() {
 
       toast.error(message);
     }
+    setClick(false);
   }
 
   return (
@@ -85,9 +89,12 @@ export default function Login() {
         <hr />
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button type="submit" className="auth-submit-button">
-            Kirim
-          </button>
+          <SubmitButton
+            state={click}
+            style="auth-submit-button"
+            label="Kirim"
+          />
+
           <Link className="auth-link-button" href="/login">
             Login
           </Link>

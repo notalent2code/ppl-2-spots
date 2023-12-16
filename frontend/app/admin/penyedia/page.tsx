@@ -68,7 +68,7 @@ export default function AdminPenyedia() {
         </thead>
 
         <tbody className="table-body">
-          {isFetched &&
+          {isFetched ? (
             owners &&
             (owners.length !== 0 ? (
               owners.map((o) => {
@@ -123,7 +123,14 @@ export default function AdminPenyedia() {
               <tr className="flex w-full">
                 <td className="grid w-full justify-center p-4">Data Kosong</td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <>
+              <div className="m-4 mt-6 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+              <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+              <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            </>
+          )}
         </tbody>
       </table>
     </section>

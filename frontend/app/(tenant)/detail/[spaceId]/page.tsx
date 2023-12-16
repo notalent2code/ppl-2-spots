@@ -1,6 +1,8 @@
 import getSpaceByID from "@/app/lib/apiCalls/getSpaceByID";
 import ClientDetailView from "./ClientView";
 
+export const revalidate = 0;
+
 export default async function SpaceDetail({
   params,
 }: {

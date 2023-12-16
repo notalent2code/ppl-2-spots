@@ -1,4 +1,3 @@
-import { cache } from "react";
 import api from "./api";
 
 export const revalidate = 60;
@@ -38,15 +37,17 @@ export interface CoworkingSpace {
   }[];
 }
 
-const getAllSpace = cache(
-  async ({ search, page }: { search?: string; page?: string }) => {
-    const params = search ? `?search=${search}` : page ? `?page=${page}` : "";
-    const result = await api(`/coworking-spaces${params}`);
-    const [spaces, pagination]: [CoworkingSpace[], Pagination] =
-      result.data.coworkingSpaces;
+export default async function getAllSpace({
+  search,
+  page,
+}: {
+  search?: string;
+  page?: string;
+}) {
+  const params = search ? `?search=${search}` : page ? `?page=${page}` : "";
+  const result = await api(`/coworking-spaces${params}`);
+  const [spaces, pagination]: [CoworkingSpace[], Pagination] =
+    result.data.coworkingSpaces;
 
-    return [spaces, pagination] as const;
-  },
-);
-
-export default getAllSpace;
+  return [spaces, pagination] as const;
+}

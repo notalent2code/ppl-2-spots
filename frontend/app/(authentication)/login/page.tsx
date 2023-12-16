@@ -5,14 +5,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useCallback } from "react";
 import axios, { AxiosError } from "axios";
 import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
-import toast from "react-hot-toast";
 import ResetPasswordModal from "@/app/components/ForgotPasswordModal";
+import SubmitButton from "@/app/components/SubmitButton";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
-  const [openModal, setOpenModal] = useState(false);
-  const { setUserType } = useUserInfoContext();
   const searchParams = useSearchParams();
+  const { setUserType } = useUserInfoContext();
+  const [openModal, setOpenModal] = useState(false);
+  const [click, setClick] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +24,7 @@ export default function Login() {
   }, []);
 
   async function submitLogin() {
+    setClick(true);
     try {
       const response = await axios.post("/lib/apiCalls/auth/login", {
         email: email,
@@ -61,6 +64,7 @@ export default function Login() {
         err?.response?.data?.message ?? err?.response?.data ?? "Daftar gagal";
       toast.error(message);
     }
+    setClick(false);
   }
 
   return (
@@ -70,6 +74,7 @@ export default function Login() {
       {openModal && <ResetPasswordModal toggleModal={toggleModal} />}
 
       <form
+        id="login"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           submitLogin();
@@ -103,9 +108,11 @@ export default function Login() {
         </p>
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button type="submit" className="auth-submit-button">
-            Masuk
-          </button>
+          <SubmitButton
+            state={click}
+            style="auth-submit-button"
+            label="Masuk"
+          />
           <Link className="auth-link-button" href="/signup">
             Daftar
           </Link>

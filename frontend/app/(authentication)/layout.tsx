@@ -24,7 +24,7 @@ export default function AuthLayout({
               width={250}
               height={250}
               alt="logo"
-              priority
+              priority={true}
             />
           </Link>
 

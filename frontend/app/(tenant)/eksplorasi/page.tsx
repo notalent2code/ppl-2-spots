@@ -1,7 +1,7 @@
-import Link from "next/link";
 import getAllSpace from "@/app/lib/apiCalls/getAllSpace";
 import SpaceCard from "@/app/components/SpaceCard";
-import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import ExplorePageNav from "@/app/components/ExplorePageNav";
+import * as NProgress from "nprogress";
 
 export default async function Explore({
   searchParams,
@@ -10,66 +10,15 @@ export default async function Explore({
 }) {
   const keyWord = searchParams ?? null;
   const [spaceResult, pagination] = await getAllSpace(keyWord);
-
-  function pageNav(pageIndex: number | null, direction: "PREV" | "NEXT") {
-    const navArrow =
-      direction === "PREV" ? (
-        <GoChevronLeft size="1.5em" color="white" />
-      ) : (
-        <GoChevronRight size="1.5em" color="white" />
-      );
-    return (
-      <>
-        {pageIndex ? (
-          <Link
-            href={`/eksplorasi?page=${pageIndex}`}
-            className="flex items-center rounded-md bg-darkblue p-2"
-          >
-            {navArrow}
-          </Link>
-        ) : (
-          <div className="flex items-center rounded-md bg-darkblue bg-opacity-50 p-2">
-            {navArrow}
-          </div>
-        )}
-      </>
-    );
-  }
+  NProgress.done();
 
   return (
     <>
-      <div className="sticky top-52 z-10 flex h-12 w-full justify-center gap-x-12 bg-white/95 pb-2 stm:top-36 stm:gap-x-24">
-        {pageNav(pagination.previousPage, "PREV")}
-
-        <div className="flex flex-col justify-center text-center">
-          <p>Halaman</p>
-          <div className="grid w-max cursor-default grid-flow-col gap-x-2">
-            <p
-              className={
-                (!pagination.previousPage ? "opacity-0 " : "bg-slate-100 ") +
-                "w-6 rounded-md"
-              }
-            >
-              {pagination.previousPage}
-            </p>
-
-            <p className={"w-6 rounded-md bg-blue-300"}>
-              {pagination.currentPage}
-            </p>
-
-            <p
-              className={
-                (!pagination.nextPage ? "opacity-0 " : "bg-slate-100 ") +
-                "w-6 rounded-md"
-              }
-            >
-              {pagination.nextPage}
-            </p>
-          </div>
-        </div>
-
-        {pageNav(pagination.nextPage, "NEXT")}
-      </div>
+      <ExplorePageNav
+        prevIndex={pagination.previousPage}
+        currentIndex={pagination.currentPage}
+        nextIndex={pagination.nextPage}
+      />
 
       {spaceResult ? (
         spaceResult.length !== 0 ? (

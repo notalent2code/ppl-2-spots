@@ -36,13 +36,13 @@ export default function AsideLayout({
 
       if (response.status === 200) {
         toast.success(response.data.message);
-        setUserType("UNASSIGNED");
-        push("/login");
       }
     } catch (error) {
       const err = error as AxiosError;
       console.error(err?.response);
     }
+    setUserType("UNASSIGNED");
+    push("/login");
   }
 
   return (
@@ -52,7 +52,7 @@ export default function AsideLayout({
           <Image
             className="mx-4 my-auto"
             alt="logo"
-            src="/SPOTS-white-icon.svg"
+            src="/spots-white-icon.png"
             width={40}
             height={40}
           />
@@ -73,7 +73,7 @@ export default function AsideLayout({
                 <div className="right mt-5 flex flex-col items-center">
                   <Image
                     alt="logo"
-                    src="/spots-white-icon.svg"
+                    src="/spots-white-icon.png"
                     width={200}
                     height={200}
                     priority

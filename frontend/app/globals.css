@@ -4,7 +4,7 @@
 
 /* default element tag styling */
 button {
-  @apply cursor-pointer rounded-lg text-center font-semibold;
+  @apply cursor-pointer rounded-lg text-center font-semibold focus:ring;
 }
 
 hr {

@@ -37,7 +37,7 @@ const SpaceCard: React.FC<SpaceResultProps> = ({
             </p>
 
             <div className="py-auto flex items-center px-2">
-              <HiMiniMapPin size="2em" />
+              <HiMiniMapPin size="2em" className="shrink-0" />
               <p className="w-fit truncate px-2 text-xl text-gray-600">
                 {place}
               </p>

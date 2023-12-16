@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import api from "../lib/apiCalls/api";
 import toast from "react-hot-toast";
 import { GoX } from "react-icons/go";
+import SubmitButton from "./SubmitButton";
 
 export default function ResetPasswordModal({
   toggleModal,
@@ -12,8 +13,10 @@ export default function ResetPasswordModal({
   toggleModal: () => void;
 }) {
   const [email, setEmail] = useState("");
+  const [click, setClick] = useState(false);
 
   async function sendPassordResetEmail() {
+    setClick(true);
     try {
       const response = await api.post("/auth/forgot-password", {
         email: email,
@@ -32,6 +35,7 @@ export default function ResetPasswordModal({
         err?.response?.data?.message ?? "Kirim email ubah password gagal";
       toast.error(message);
     }
+    setClick(false);
   }
 
   return (
@@ -63,9 +67,11 @@ export default function ResetPasswordModal({
             onChange={(e: any) => setEmail(e.target.value)}
           />
 
-          <button className="border-2 border-darkblue bg-darkblue px-6 py-3 text-white hover:border-sky-900 hover:bg-sky-900 active:border-teal-600 active:bg-teal-600 md:px-12">
-            Kirim
-          </button>
+          <SubmitButton
+            state={click}
+            style="border-2 border-darkblue bg-darkblue px-6 py-3 text-white hover:border-sky-900 hover:bg-sky-900 active:border-teal-600 active:bg-teal-600 md:px-12"
+            label="Kirim"
+          />
         </form>
       </div>
     </div>

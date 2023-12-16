@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import useApiSecured from "@/app/lib/hooks/useApiSecured";
 import {
   Availabilities,
@@ -9,10 +10,10 @@ import {
 } from "@/app/lib/hooks/useSpaceIdInfoContext";
 import getSpaceByID from "@/app/lib/apiCalls/getSpaceByID";
 import { remapAvailabilities } from "../../detail/[spaceId]/ClientView";
-import CalendarView from "@/app/components/CalendarView";
-import toast from "react-hot-toast";
 import * as NProgress from "nprogress";
-import { AxiosError } from "axios";
+import CalendarView from "@/app/components/CalendarView";
+import SubmitButton from "@/app/components/SubmitButton";
+import toast from "react-hot-toast";
 
 export default function Booking({ params }: { params: { spaceId: number } }) {
   const axiosSecured = useApiSecured();
@@ -20,8 +21,8 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
   const searchParams = useSearchParams();
   const name = searchParams.get("name");
   const price = searchParams.get("price");
-  if (!name || !price) router.back();
   NProgress.done();
+  if (!name || !price) router.back();
 
   const { schedule } = useSpaceIdInfoContext();
   const [backupSchedule, setBackupSchedule] = useState<Availabilities | null>(
@@ -30,11 +31,24 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
 
   const time = new Date();
 
+  const [click, setClick] = useState(false);
   const [date, setDate] = useState("");
   const [startHour, setStartHour] = useState("");
   const [endHour, setEndHour] = useState("");
 
+  useEffect(() => {
+    async function getBackupPicture() {
+      const response = await getSpaceByID(params.spaceId);
+      const availabilitesArray = response.availabilities?.map((value) => {
+        return remapAvailabilities(value);
+      });
+      setBackupSchedule(availabilitesArray ?? []);
+    }
+    if (!schedule) getBackupPicture();
+  }, []);
+
   async function submitBooking() {
+    setClick(true);
     try {
       const totalPrice =
         (parseInt(endHour) - parseInt(startHour)) * parseInt(price || "0");
@@ -65,18 +79,8 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
           : "Gagal booking";
       toast.error(message);
     }
+    setClick(false);
   }
-
-  useEffect(() => {
-    async function getBackupPicture() {
-      const response = await getSpaceByID(params.spaceId);
-      const availabilitesArray = response.availabilities?.map((value) => {
-        return remapAvailabilities(value);
-      });
-      setBackupSchedule(availabilitesArray ?? []);
-    }
-    if (!schedule) getBackupPicture();
-  }, []);
 
   return (
     <>
@@ -173,15 +177,14 @@ export default function Booking({ params }: { params: { spaceId: number } }) {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="button-color-state md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:outline-2 focus:outline-green-600 lg:my-6"
-        >
-          Kirim Booking
-        </button>
+        <SubmitButton
+          state={click}
+          style="button-color-state focus:ring-0 md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:outline-2 focus:outline-green-600 lg:my-6"
+          label="Kirim Booking"
+        />
 
         <button
-          className="white-button-state md:px-auto m-auto mt-6 block w-52 rounded-full border-2 py-3 focus:outline-2 focus:outline-green-600 lg:my-6"
+          className="white-button-state md:px-auto m-auto mt-6 block w-52 rounded-full border-2 py-3 focus:outline-2 focus:outline-green-600 focus:ring-0 lg:my-6"
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
             router.back();

@@ -41,7 +41,6 @@ export default function BookingHistoryTable() {
   }, []);
 
   return (
-    // <div className="overflow-x-scroll px-8">
     <table
       className={
         "table-container" +
@@ -61,7 +60,7 @@ export default function BookingHistoryTable() {
       </thead>
 
       <tbody className="table-body">
-        {isFetched &&
+        {isFetched ? (
           bookings &&
           (bookings.length !== 0 ? (
             bookings.map((b) => {
@@ -100,12 +99,18 @@ export default function BookingHistoryTable() {
               );
             })
           ) : (
-            <tr className="flex w-full">
+            <tr className="flex h-full w-full items-center">
               <td className="grid w-full justify-center p-4">Data Kosong</td>
             </tr>
-          ))}
+          ))
+        ) : (
+          <>
+            <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+          </>
+        )}
       </tbody>
     </table>
-    // </div>
   );
 }

@@ -1,14 +1,16 @@
 "use client";
 
-import SearchBar from "@/app/components/Form/Search";
 import { Suspense } from "react";
+import * as NProgress from "nprogress";
 import ExploreLoadingCard from "./loading";
+import SearchBar from "@/app/components/Form/Search";
 
 export default function ExploreLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  NProgress.done();
   return (
     <>
       <title>Eksplorasi</title>

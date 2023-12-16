@@ -1,6 +1,7 @@
 "use client";
 
 import SpaceForm from "@/app/components/Form/SpaceForm";
+import OwnerFormLoading from "@/app/components/OwnerFormLoading";
 import getSpaceByID, {
   SpaceResultDetail,
 } from "@/app/lib/apiCalls/getSpaceByID";
@@ -35,7 +36,7 @@ export default function EditSpace({ params }: { params: { spaceId: number } }) {
           <h1>EDIT COWORKING SPACE</h1>
         </div>
 
-        {spaceData && <SpaceForm spaceData={spaceData} />}
+        {spaceData ? <SpaceForm spaceData={spaceData} /> : <OwnerFormLoading />}
       </div>
     </section>
   );

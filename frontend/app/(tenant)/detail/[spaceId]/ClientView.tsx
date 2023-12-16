@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import * as NProgress from "nprogress";
 import { GoX } from "react-icons/go";
 import { HiMiniMapPin } from "react-icons/hi2";
+import { AiOutlineTeam } from "react-icons/ai";
 
 export function remapAvailabilities(value: {
   availability_id: number;
@@ -150,17 +151,31 @@ export default function ClientDetailView(space: SpaceResultDetail) {
             <div className="border-1 bg-gray-100 p-5 md:mx-10 md:rounded-xl lg:ml-10 lg:mr-2">
               <p className="mb-2 text-xl font-semibold">Fasilitas</p>
               <ul className="ml-10 list-disc font-medium text-gray-600">
-                <li>{space.capacity} Kursi</li>
                 {space.coworking_space_facilities.map((fac) => {
                   return (
-                    <li key={fac.facility.facility_id}>{fac.facility.name}</li>
+                    <li
+                      className="font-semibold"
+                      key={fac.facility.facility_id}
+                    >
+                      {fac.facility.name}
+                      <p className="font-normal">{fac.facility.description}</p>
+                    </li>
                   );
                 })}
               </ul>
+
+              <p className="mt-2 text-xl font-semibold">Kapasitas</p>
+              <div className="mt-2 flex items-center">
+                <AiOutlineTeam size="2em" />
+                <p className="ml-2 font-semibold text-gray-600">
+                  {space.capacity} Orang
+                </p>
+              </div>
+
               <p className="mt-2 text-xl font-semibold">Lokasi</p>
               <div className="mt-2 flex items-center">
-                <HiMiniMapPin size="2em" />
-                <p className="mt-2 font-medium text-gray-600">
+                <HiMiniMapPin size="2em" className="shrink-0" />
+                <p className="ml-2 mt-2 font-semibold text-gray-600">
                   {space.location.address}
                 </p>
               </div>
@@ -192,7 +207,7 @@ export default function ClientDetailView(space: SpaceResultDetail) {
                 <hr className="mt-0" />
 
                 <button
-                  className="button-color-state m-auto mt-5 block rounded-full bg-darkblue px-20 py-3 text-white focus:outline-2 focus:outline-green-600"
+                  className="button-color-state m-auto mt-5 block rounded-full bg-darkblue px-20 py-3 text-white focus:outline-2 focus:outline-green-600 focus:ring-0"
                   onClick={booking}
                 >
                   Booking

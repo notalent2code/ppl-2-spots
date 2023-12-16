@@ -32,14 +32,10 @@ export default function SpaceTable({
   }, [dependencie]);
 
   return (
-    // <div className="h-full overflow-x-scroll">
     <table className="table-container h-5/6 ">
       <thead className="table-head">
         <tr className="flex w-full items-center rounded-tl-xl rounded-tr-xl bg-darkgray text-center">
           <th className="w-20 p-2 font-medium text-white">Space ID</th>
-          {userType === "ADMIN" && (
-            <th className="w-24 p-2 font-medium text-white">Owner ID</th>
-          )}
           <th className="w-52 p-2 font-medium text-white">Nama</th>
           <th className="w-36 p-2 font-medium text-white">Harga Sewa</th>
           <th className="w-20 p-2 font-medium text-white">Kapasitas</th>
@@ -52,16 +48,13 @@ export default function SpaceTable({
       </thead>
 
       <tbody className="table-body">
-        {isFetched &&
+        {isFetched ? (
           spaces &&
           (spaces.length !== 0 ? (
             spaces.map((s) => {
               return (
                 <tr className="flex w-full items-center" key={s.space_id}>
                   <td className="w-20 break-words p-2">{s.space_id}</td>
-                  {userType === "ADMIN" && (
-                    <td className="w-24 p-2">{s.space_id}</td>
-                  )}
                   <td className="w-52 break-words p-2">{s.name}</td>
                   <td className="w-36 break-words p-2">
                     Rp {moneySplitter(s.price.toString())}
@@ -106,9 +99,15 @@ export default function SpaceTable({
             <tr className="flex h-full w-full items-center">
               <td className="grid w-full justify-center p-4">Data Kosong</td>
             </tr>
-          ))}
+          ))
+        ) : (
+          <>
+            <div className="m-4 mt-6 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+            <div className="m-4 h-8 w-11/12 animate-pulse rounded-lg bg-slate-200"></div>
+          </>
+        )}
       </tbody>
     </table>
-    // </div>
   );
 }

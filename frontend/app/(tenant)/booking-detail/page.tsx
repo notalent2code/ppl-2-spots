@@ -53,7 +53,7 @@ export default function BookingDetailCallback() {
           setBookingDetail(response.data.booking);
         }
       } catch (error) {
-        toast.error("Terjadi masalah saat konfirmasi booking");
+        toast.error("Terjadi masalah saat konfirmasi booking, coba Refresh");
       }
     }
 
@@ -116,8 +116,7 @@ export default function BookingDetailCallback() {
       <h1>Detail Booking</h1>
 
       <strong className="text-l block bg-white px-6 pb-8 text-red-500 md:px-12">
-        *simpan struk bila diperlukan, struk tidak dapat di akses lagi setelah
-        meninggalkan laman ini
+        *simpan struk bila diperlukan
       </strong>
 
       <form
@@ -132,7 +131,7 @@ export default function BookingDetailCallback() {
           className="m-auto grid w-11/12 items-center rounded-xl border-2 border-dashed border-black py-5"
         >
           <Image
-            src={"/spots-white.svg"}
+            src={"/spots-white.png"}
             width={150}
             height={150}
             alt="Spots-logo"
@@ -288,7 +287,12 @@ export default function BookingDetailCallback() {
                 id=""
                 className="w-6/12 font-semibold text-black sm:w-7/12 md:text-lg"
               >
-                {bookingDetail?.payment?.status ?? "-"}
+                {!bookingDetail?.payment
+                  ? "PEMBAYARAN TIDAK DITERIMA"
+                  : bookingDetail.payment.status === "settlement" ||
+                    bookingDetail.payment.status === "capture"
+                  ? "BERHASIL"
+                  : bookingDetail.payment.status}
               </p>
             </div>
 

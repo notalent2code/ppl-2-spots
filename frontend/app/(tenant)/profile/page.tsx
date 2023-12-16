@@ -8,6 +8,7 @@ import useApiSecured from "@/app/lib/hooks/useApiSecured";
 import { useUserInfoContext } from "@/app/lib/hooks/useUserInfoContext";
 import toast from "react-hot-toast";
 import TenantProfileLoadingCard from "./loading";
+import SubmitButton from "@/app/components/SubmitButton";
 
 export default function Profile() {
   const { push } = useRouter();
@@ -15,6 +16,7 @@ export default function Profile() {
   const { profile, userType, setProfile } = useUserInfoContext();
 
   const [editInput, setEditInput] = useState(false);
+  const [click, setClick] = useState(false);
 
   const [picture, setPicture] = useState<File | null>(null);
   const [firstName, setFirstName] = useState(profile?.user.first_name);
@@ -36,6 +38,7 @@ export default function Profile() {
   }, []);
 
   async function updateProfile() {
+    setClick(true);
     if (!profile) return;
 
     try {
@@ -64,6 +67,7 @@ export default function Profile() {
       const err: any = error as AxiosError;
       toast.error(err?.response?.data?.message);
     }
+    setClick(false);
   }
 
   if (!profile) return <TenantProfileLoadingCard />;
@@ -162,12 +166,11 @@ export default function Profile() {
             </button>
           ) : (
             <>
-              <button
-                className="green-button-state w-48 rounded-full py-3"
-                type="submit"
-              >
-                Submit
-              </button>
+              <SubmitButton
+                state={click}
+                style="green-button-state focus:ring-0 w-48 rounded-full py-3"
+                label="Submit"
+              />
 
               <button
                 className="white-button-state w-48 rounded-full py-3"

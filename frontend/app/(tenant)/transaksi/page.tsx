@@ -4,18 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSpaceIdInfoContext } from "@/app/lib/hooks/useSpaceIdInfoContext";
 import getSpaceByID from "@/app/lib/apiCalls/getSpaceByID";
 import useApiSecured from "@/app/lib/hooks/useApiSecured";
-import { useSpaceIdInfoContext } from "@/app/lib/hooks/useSpaceIdInfoContext";
 import moneySplitter from "@/app/lib/moneySplitter";
+import SubmitButton from "@/app/components/SubmitButton";
 import toast from "react-hot-toast";
 
-export default function Booking(id: number) {
+export default function Transaksi() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const axiosSecured = useApiSecured();
   const { image } = useSpaceIdInfoContext();
 
+  const [click, setClick] = useState(false);
   const [backupImage, setBackupImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export default function Booking(id: number) {
   const totalPrice = bookingDuration * parseInt(paramsProps.spacePrice);
 
   async function payment() {
+    setClick(true);
     try {
       const response = await axiosSecured.post(
         `/lib/apiCalls/payment?bookingId=${paramsProps.bookingId}`,
@@ -64,6 +67,7 @@ export default function Booking(id: number) {
     } catch (error) {
       toast.error("Gagal melanjutkan ke pembayaran");
     }
+    setClick(false);
   }
 
   return (
@@ -171,12 +175,11 @@ export default function Booking(id: number) {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="button-color-state md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:outline-2 focus:outline-green-600 lg:my-6"
-        >
-          Bayar
-        </button>
+        <SubmitButton
+          state={click}
+          style="button-color-state md:px-auto m-auto mt-6 block w-52 rounded-full bg-darkblue py-3 text-white focus:ring-0 focus:outline-2 focus:outline-green-600 lg:my-6"
+          label="Masuk"
+        />
 
         <Link
           type="submit"

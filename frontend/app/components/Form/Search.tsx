@@ -11,7 +11,7 @@ export default function SearchBar() {
     <>
       <form
         className="relative flex w-full flex-wrap px-6 sm:px-12"
-        onSubmit={(e: any) => {
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           push(`/eksplorasi?search=${keyWord}`);
         }}

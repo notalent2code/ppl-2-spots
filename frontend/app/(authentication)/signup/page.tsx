@@ -6,10 +6,12 @@ import { useState } from "react";
 import { AxiosError } from "axios";
 import api from "@/app/lib/apiCalls/api";
 import phoneNumberFormatCheck from "@/app/lib/phoneNumberParser";
+import SubmitButton from "@/app/components/SubmitButton";
 import toast from "react-hot-toast";
 
 export default function Signup() {
   const router = useRouter();
+  const [click, setClick] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,32 +30,30 @@ export default function Signup() {
     passwordMatch = false;
   } else passwordMatch = true;
 
-  function registerUser() {
-    const post = async () => {
-      try {
-        const response = await api.post("/auth/register", {
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-          firstName: firstName,
-          lastName: lastName,
-          phoneNumber: phoneNumber,
-          userType: userType,
-        });
+  async function registerUser() {
+    setClick(true);
+    try {
+      const response = await api.post("/auth/register", {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        userType: userType,
+      });
 
-        if (response.status === 201) {
-          toast.success("Akun berhasil didaftarkan");
-          router.push("/login");
-        }
-      } catch (error) {
-        const err = error as AxiosError;
-        //@ts-ignore
-        const message = err?.response?.data?.message ?? "Daftar gagal";
-        toast.error(message);
+      if (response.status === 201) {
+        toast.success("Akun berhasil didaftarkan");
+        router.push("/login");
       }
-    };
-
-    post();
+    } catch (error) {
+      const err = error as AxiosError;
+      //@ts-ignore
+      const message = err?.response?.data?.message ?? "Daftar gagal";
+      toast.error(message);
+    }
+    setClick(false);
   }
 
   return (
@@ -126,7 +126,7 @@ export default function Signup() {
 
         <input
           type="number"
-          placeholder="Nomor Telepon"
+          placeholder="Nomor Telepon. cth: 628***"
           className={
             style +
             " [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -153,9 +153,11 @@ export default function Signup() {
         <hr className="mt-4" />
 
         <div className="mx-10 mb-10 flex justify-between gap-x-10">
-          <button type="submit" className="auth-submit-button">
-            Daftar
-          </button>
+          <SubmitButton
+            state={click}
+            style="auth-submit-button"
+            label="Daftar"
+          />
           <Link className="auth-link-button" href="/login">
             Login
           </Link>

@@ -11,7 +11,7 @@ export default function Navbar() {
         <Link className="inline-flex items-center" href="/">
           <Image
             alt="logo"
-            src="/spots-white-icon.svg"
+            src="/spots-white-icon.png"
             height={50}
             width={50}
             priority={true}
